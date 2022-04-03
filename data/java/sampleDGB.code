@@ -1,0 +1,5 @@
+private int Stupid( ) { int f = 45; int p = 34; return f / p * p; }
+private int ReturnOne( ) { int f = 45; int p = 34; return 1; }
+private static int Add(int a, int b) { return a+b; }
+private static int Pow(int a, int b) { int answer = 1; for (int i = b; i > 0; i--) { answer *= a; } return answer; }
+
