@@ -38,11 +38,18 @@ AST_TYPE_MAP = {
 
 DATA_LANG_MAP = {
     'java': 'java',
-    'python': 'python'
+    'python': 'python',
+    'c#': 'c#',                # DGB
+    'go':'go',
+    'javascript': 'javascript',
+    'php': 'php'
 }
 
 LANG_ID_MAP = {
     'java': 0,
     'python': 1,
-    'c#': 2
+    'c#': 2,
+    'go': 3,         # DGB
+    'javascript': 4, 
+    'php': 5
 }
