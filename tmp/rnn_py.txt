@@ -1,0 +1,653 @@
+03/20/2022 09:34:40 PM: [ COMMAND: ../../main/train.py --data_workers 5 --dataset_name python --data_dir ../../data/ --model_dir ../../tmp --model_name rnnpy --train_src train/code.original_subtoken --train_tgt train/javadoc.original --dev_src dev/code.original_subtoken --dev_tgt dev/javadoc.original --uncase True --use_src_word True --use_src_char False --use_tgt_word True --use_tgt_char False --max_src_len 400 --max_tgt_len 30 --emsize 512 --fix_embeddings False --src_vocab_size 50000 --tgt_vocab_size 30000 --share_decoder_embeddings True --conditional_decoding False --max_examples -1 --batch_size 32 --test_batch_size 64 --num_epochs 200 --model_type rnn --nhid 512 --nlayers 2 --dropout_rnn 0.2 --dropout_emb 0.2 --dropout 0.2 --copy_attn True --reuse_copy_attn True --early_stop 20 --optimizer adam --learning_rate 0.002 --lr_decay 0.99 --grad_clipping 5.0 --valid_metric bleu --checkpoint True ]
+03/20/2022 09:34:40 PM: [ ---------------------------------------------------------------------------------------------------- ]
+03/20/2022 09:34:40 PM: [ Load and process data files ]
+03/20/2022 09:34:42 PM: [ Num train examples = 55538 ]
+03/20/2022 09:34:42 PM: [ Dataset weights = {1: 1.0} ]
+03/20/2022 09:34:43 PM: [ Num dev examples = 18505 ]
+03/20/2022 09:34:43 PM: [ ---------------------------------------------------------------------------------------------------- ]
+03/20/2022 09:34:43 PM: [ Training model from scratch... ]
+03/20/2022 09:34:43 PM: [ ---------------------------------------------------------------------------------------------------- ]
+03/20/2022 09:34:43 PM: [ Build word dictionary ]
+03/20/2022 09:34:45 PM: [ Num words in source = 50000 and target = 30000 ]
+03/20/2022 09:34:45 PM: [ Trainable #parameters [encoder-decoder] 8.14M [total] 49.1M ]
+03/20/2022 09:34:45 PM: [ Breakdown of the trainable paramters
++---------------------------------------------------------------+--------------+----------+
+| Layer Name                                                    | Output Shape |  Param # |
++---------------------------------------------------------------+--------------+----------+
+| embedder.src_word_embeddings.make_embedding.emb_luts.0.weight | [50000, 512] | 25600000 |
+| embedder.tgt_word_embeddings.make_embedding.emb_luts.0.weight | [30000, 512] | 15360000 |
+| encoder.encoder.rnns.0.weight_ih_l0                           |  [1024, 512] |   524288 |
+| encoder.encoder.rnns.0.weight_hh_l0                           |  [1024, 256] |   262144 |
+| encoder.encoder.rnns.0.bias_ih_l0                             |       [1024] |     1024 |
+| encoder.encoder.rnns.0.bias_hh_l0                             |       [1024] |     1024 |
+| encoder.encoder.rnns.0.weight_ih_l0_reverse                   |  [1024, 512] |   524288 |
+| encoder.encoder.rnns.0.weight_hh_l0_reverse                   |  [1024, 256] |   262144 |
+| encoder.encoder.rnns.0.bias_ih_l0_reverse                     |       [1024] |     1024 |
+| encoder.encoder.rnns.0.bias_hh_l0_reverse                     |       [1024] |     1024 |
+| encoder.encoder.rnns.1.weight_ih_l0                           |  [1024, 512] |   524288 |
+| encoder.encoder.rnns.1.weight_hh_l0                           |  [1024, 256] |   262144 |
+| encoder.encoder.rnns.1.bias_ih_l0                             |       [1024] |     1024 |
+| encoder.encoder.rnns.1.bias_hh_l0                             |       [1024] |     1024 |
+| encoder.encoder.rnns.1.weight_ih_l0_reverse                   |  [1024, 512] |   524288 |
+| encoder.encoder.rnns.1.weight_hh_l0_reverse                   |  [1024, 256] |   262144 |
+| encoder.encoder.rnns.1.bias_ih_l0_reverse                     |       [1024] |     1024 |
+| encoder.encoder.rnns.1.bias_hh_l0_reverse                     |       [1024] |     1024 |
+| decoder.decoder.rnn.weight_ih_l0                              |  [2048, 512] |  1048576 |
+| decoder.decoder.rnn.weight_hh_l0                              |  [2048, 512] |  1048576 |
+| decoder.decoder.rnn.bias_ih_l0                                |       [2048] |     2048 |
+| decoder.decoder.rnn.bias_hh_l0                                |       [2048] |     2048 |
+| decoder.decoder.rnn.weight_ih_l1                              |  [2048, 512] |  1048576 |
+| decoder.decoder.rnn.weight_hh_l1                              |  [2048, 512] |  1048576 |
+| decoder.decoder.rnn.bias_ih_l1                                |       [2048] |     2048 |
+| decoder.decoder.rnn.bias_hh_l1                                |       [2048] |     2048 |
+| decoder.decoder.attn.linear_in.weight                         |   [512, 512] |   262144 |
+| decoder.decoder.attn.linear_out.weight                        |  [512, 1024] |   524288 |
+| generator.bias                                                |      [30000] |    30000 |
+| copy_generator.linear_copy.weight                             |     [1, 512] |      512 |
+| copy_generator.linear_copy.bias                               |          [1] |        1 |
++---------------------------------------------------------------+--------------+----------+ ]
+03/20/2022 09:34:49 PM: [ ---------------------------------------------------------------------------------------------------- ]
+03/20/2022 09:34:49 PM: [ Make data loaders ]
+03/20/2022 09:34:49 PM: [ ---------------------------------------------------------------------------------------------------- ]
+03/20/2022 09:34:49 PM: [ CONFIG:
+{
+    "attn_type": "general",
+    "batch_size": 32,
+    "bidirection": true,
+    "char_emsize": 16,
+    "checkpoint": true,
+    "code_tag_type": "subtoken",
+    "conditional_decoding": false,
+    "copy_attn": true,
+    "coverage_attn": false,
+    "cuda": true,
+    "d_ff": 2048,
+    "d_k": 64,
+    "d_v": 64,
+    "data_dir": "../../data/",
+    "data_workers": 5,
+    "dataset_name": [
+        "python"
+    ],
+    "dataset_weights": {
+        "1": 1.0
+    },
+    "dev_src": [
+        "dev/code.original_subtoken"
+    ],
+    "dev_src_files": [
+        "../../data/python/dev/code.original_subtoken"
+    ],
+    "dev_src_tag": null,
+    "dev_src_tag_files": [
+        null
+    ],
+    "dev_tgt": [
+        "dev/javadoc.original"
+    ],
+    "dev_tgt_files": [
+        "../../data/python/dev/javadoc.original"
+    ],
+    "display_iter": 25,
+    "dropout": 0.2,
+    "dropout_emb": 0.2,
+    "dropout_rnn": 0.2,
+    "early_stop": 20,
+    "emsize": 512,
+    "filter_size": 5,
+    "fix_embeddings": false,
+    "force_copy": false,
+    "grad_clipping": 5.0,
+    "layer_wise_attn": false,
+    "learning_rate": 0.002,
+    "log_file": "../../tmp/rnnpy.txt",
+    "lr_decay": 0.99,
+    "max_characters_per_token": 30,
+    "max_examples": -1,
+    "max_relative_pos": 0,
+    "max_src_len": 400,
+    "max_tgt_len": 30,
+    "model_dir": "../../tmp",
+    "model_file": "../../tmp/rnnpy.mdl",
+    "model_name": "rnnpy",
+    "model_type": "rnn",
+    "momentum": 0,
+    "n_characters": 260,
+    "nfilters": 100,
+    "nhid": 512,
+    "nlayers": 2,
+    "num_epochs": 200,
+    "num_head": 8,
+    "num_train_examples": 55538,
+    "only_test": false,
+    "optimizer": "adam",
+    "parallel": false,
+    "pred_file": "../../tmp/rnnpy.json",
+    "pretrained": null,
+    "print_copy_info": false,
+    "print_one_target": false,
+    "random_seed": 1013,
+    "reload_decoder_state": null,
+    "reuse_copy_attn": true,
+    "review_attn": false,
+    "rnn_type": "LSTM",
+    "share_decoder_embeddings": true,
+    "sort_by_len": true,
+    "split_decoder": false,
+    "src_pos_emb": true,
+    "src_vocab_size": 50000,
+    "test_batch_size": 64,
+    "tgt_pos_emb": true,
+    "tgt_vocab_size": 30000,
+    "train_src": [
+        "train/code.original_subtoken"
+    ],
+    "train_src_files": [
+        "../../data/python/train/code.original_subtoken"
+    ],
+    "train_src_tag": null,
+    "train_src_tag_files": [
+        null
+    ],
+    "train_tgt": [
+        "train/javadoc.original"
+    ],
+    "train_tgt_files": [
+        "../../data/python/train/javadoc.original"
+    ],
+    "trans_drop": 0.2,
+    "uncase": true,
+    "use_all_enc_layers": false,
+    "use_code_type": false,
+    "use_neg_dist": true,
+    "use_src_char": false,
+    "use_src_word": true,
+    "use_tgt_char": false,
+    "use_tgt_word": true,
+    "valid_metric": "bleu",
+    "warmup_epochs": 0,
+    "warmup_steps": 10000,
+    "weight_decay": 0
+} ]
+03/20/2022 09:34:49 PM: [ ---------------------------------------------------------------------------------------------------- ]
+03/20/2022 09:34:49 PM: [ Starting training... ]
+03/20/2022 09:36:15 PM: [ train: Epoch 1 | perplexity = 167.45 | ml_loss = 49.62 | Time for epoch = 85.82 (s) ]
+03/20/2022 09:38:46 PM: [ dev valid official: Epoch = 1 | bleu = 17.47 | rouge_l = 32.84 | Precision = 44.28 | Recall = 31.99 | F1 = 34.82 | examples = 18505 | valid time = 149.72 (s) ]
+03/20/2022 09:38:46 PM: [ Best valid: bleu = 17.47 (epoch 1, 1736 updates) ]
+03/20/2022 09:40:14 PM: [ train: Epoch 2 | perplexity = 57.02 | ml_loss = 43.18 | Time for epoch = 88.21 (s) ]
+03/20/2022 09:42:54 PM: [ dev valid official: Epoch = 2 | bleu = 17.75 | rouge_l = 33.54 | Precision = 42.16 | Recall = 34.11 | F1 = 35.34 | examples = 18505 | valid time = 159.20 (s) ]
+03/20/2022 09:42:54 PM: [ Best valid: bleu = 17.75 (epoch 2, 3472 updates) ]
+03/20/2022 09:44:29 PM: [ train: Epoch 3 | perplexity = 44.61 | ml_loss = 40.61 | Time for epoch = 94.37 (s) ]
+03/20/2022 09:47:13 PM: [ dev valid official: Epoch = 3 | bleu = 17.97 | rouge_l = 34.08 | Precision = 46.03 | Recall = 33.12 | F1 = 35.97 | examples = 18505 | valid time = 162.79 (s) ]
+03/20/2022 09:47:13 PM: [ Best valid: bleu = 17.97 (epoch 3, 5208 updates) ]
+03/20/2022 09:48:40 PM: [ train: Epoch 4 | perplexity = 37.59 | ml_loss = 38.77 | Time for epoch = 86.82 (s) ]
+03/20/2022 09:51:16 PM: [ dev valid official: Epoch = 4 | bleu = 18.50 | rouge_l = 34.68 | Precision = 44.32 | Recall = 34.92 | F1 = 36.50 | examples = 18505 | valid time = 154.37 (s) ]
+03/20/2022 09:51:16 PM: [ Best valid: bleu = 18.50 (epoch 4, 6944 updates) ]
+03/20/2022 09:52:45 PM: [ train: Epoch 5 | perplexity = 33.22 | ml_loss = 37.29 | Time for epoch = 88.58 (s) ]
+03/20/2022 09:55:19 PM: [ dev valid official: Epoch = 5 | bleu = 18.84 | rouge_l = 35.15 | Precision = 43.66 | Recall = 35.94 | F1 = 36.97 | examples = 18505 | valid time = 153.53 (s) ]
+03/20/2022 09:55:19 PM: [ Best valid: bleu = 18.84 (epoch 5, 8680 updates) ]
+03/20/2022 09:56:54 PM: [ train: Epoch 6 | perplexity = 28.66 | ml_loss = 36.03 | Time for epoch = 93.92 (s) ]
+03/20/2022 09:59:41 PM: [ dev valid official: Epoch = 6 | bleu = 18.94 | rouge_l = 35.43 | Precision = 41.14 | Recall = 37.74 | F1 = 37.03 | examples = 18505 | valid time = 166.68 (s) ]
+03/20/2022 09:59:41 PM: [ Best valid: bleu = 18.94 (epoch 6, 10416 updates) ]
+03/20/2022 10:01:13 PM: [ train: Epoch 7 | perplexity = 26.01 | ml_loss = 34.89 | Time for epoch = 91.51 (s) ]
+03/20/2022 10:04:02 PM: [ dev valid official: Epoch = 7 | bleu = 18.77 | rouge_l = 34.98 | Precision = 39.52 | Recall = 38.26 | F1 = 36.52 | examples = 18505 | valid time = 167.37 (s) ]
+03/20/2022 10:05:34 PM: [ train: Epoch 8 | perplexity = 24.01 | ml_loss = 33.87 | Time for epoch = 92.25 (s) ]
+03/20/2022 10:08:13 PM: [ dev valid official: Epoch = 8 | bleu = 19.19 | rouge_l = 35.56 | Precision = 40.88 | Recall = 38.40 | F1 = 37.23 | examples = 18505 | valid time = 158.21 (s) ]
+03/20/2022 10:08:13 PM: [ Best valid: bleu = 19.19 (epoch 8, 13888 updates) ]
+03/20/2022 10:09:44 PM: [ train: Epoch 9 | perplexity = 21.70 | ml_loss = 32.98 | Time for epoch = 90.64 (s) ]
+03/20/2022 10:12:31 PM: [ dev valid official: Epoch = 9 | bleu = 19.57 | rouge_l = 36.00 | Precision = 41.22 | Recall = 38.77 | F1 = 37.62 | examples = 18505 | valid time = 165.61 (s) ]
+03/20/2022 10:12:31 PM: [ Best valid: bleu = 19.57 (epoch 9, 15624 updates) ]
+03/20/2022 10:14:03 PM: [ train: Epoch 10 | perplexity = 19.90 | ml_loss = 32.11 | Time for epoch = 91.50 (s) ]
+03/20/2022 10:16:44 PM: [ dev valid official: Epoch = 10 | bleu = 20.14 | rouge_l = 36.68 | Precision = 44.01 | Recall = 38.12 | F1 = 38.49 | examples = 18505 | valid time = 160.35 (s) ]
+03/20/2022 10:16:44 PM: [ Best valid: bleu = 20.14 (epoch 10, 17360 updates) ]
+03/20/2022 10:18:18 PM: [ train: Epoch 11 | perplexity = 18.21 | ml_loss = 31.28 | Time for epoch = 93.38 (s) ]
+03/20/2022 10:21:04 PM: [ dev valid official: Epoch = 11 | bleu = 20.04 | rouge_l = 36.41 | Precision = 42.91 | Recall = 38.31 | F1 = 38.13 | examples = 18505 | valid time = 164.27 (s) ]
+03/20/2022 10:22:34 PM: [ train: Epoch 12 | perplexity = 17.15 | ml_loss = 30.53 | Time for epoch = 90.54 (s) ]
+03/20/2022 10:25:19 PM: [ dev valid official: Epoch = 12 | bleu = 20.22 | rouge_l = 36.71 | Precision = 42.59 | Recall = 39.09 | F1 = 38.42 | examples = 18505 | valid time = 163.53 (s) ]
+03/20/2022 10:25:19 PM: [ Best valid: bleu = 20.22 (epoch 12, 20832 updates) ]
+03/20/2022 10:26:50 PM: [ train: Epoch 13 | perplexity = 16.01 | ml_loss = 29.85 | Time for epoch = 90.51 (s) ]
+03/20/2022 10:29:42 PM: [ dev valid official: Epoch = 13 | bleu = 20.68 | rouge_l = 37.18 | Precision = 43.29 | Recall = 39.27 | F1 = 38.92 | examples = 18505 | valid time = 171.79 (s) ]
+03/20/2022 10:29:42 PM: [ Best valid: bleu = 20.68 (epoch 13, 22568 updates) ]
+03/20/2022 10:31:16 PM: [ train: Epoch 14 | perplexity = 15.24 | ml_loss = 29.16 | Time for epoch = 92.76 (s) ]
+03/20/2022 10:34:02 PM: [ dev valid official: Epoch = 14 | bleu = 20.52 | rouge_l = 37.12 | Precision = 42.95 | Recall = 39.48 | F1 = 38.82 | examples = 18505 | valid time = 164.78 (s) ]
+03/20/2022 10:35:31 PM: [ train: Epoch 15 | perplexity = 14.36 | ml_loss = 28.53 | Time for epoch = 89.77 (s) ]
+03/20/2022 10:38:18 PM: [ dev valid official: Epoch = 15 | bleu = 20.93 | rouge_l = 37.52 | Precision = 44.18 | Recall = 39.47 | F1 = 39.34 | examples = 18505 | valid time = 165.53 (s) ]
+03/20/2022 10:38:18 PM: [ Best valid: bleu = 20.93 (epoch 15, 26040 updates) ]
+03/20/2022 10:39:49 PM: [ train: Epoch 16 | perplexity = 13.26 | ml_loss = 27.92 | Time for epoch = 91.00 (s) ]
+03/20/2022 10:42:36 PM: [ dev valid official: Epoch = 16 | bleu = 20.81 | rouge_l = 37.41 | Precision = 42.31 | Recall = 40.43 | F1 = 39.10 | examples = 18505 | valid time = 165.75 (s) ]
+03/20/2022 10:44:06 PM: [ train: Epoch 17 | perplexity = 12.58 | ml_loss = 27.34 | Time for epoch = 90.29 (s) ]
+03/20/2022 10:46:55 PM: [ dev valid official: Epoch = 17 | bleu = 20.87 | rouge_l = 37.35 | Precision = 42.66 | Recall = 39.99 | F1 = 39.06 | examples = 18505 | valid time = 167.45 (s) ]
+03/20/2022 10:48:24 PM: [ train: Epoch 18 | perplexity = 12.16 | ml_loss = 26.79 | Time for epoch = 88.81 (s) ]
+03/20/2022 10:51:01 PM: [ dev valid official: Epoch = 18 | bleu = 21.32 | rouge_l = 37.69 | Precision = 44.73 | Recall = 39.28 | F1 = 39.49 | examples = 18505 | valid time = 155.93 (s) ]
+03/20/2022 10:51:01 PM: [ Best valid: bleu = 21.32 (epoch 18, 31248 updates) ]
+03/20/2022 10:52:28 PM: [ train: Epoch 19 | perplexity = 11.33 | ml_loss = 26.22 | Time for epoch = 86.55 (s) ]
+03/20/2022 10:54:58 PM: [ dev valid official: Epoch = 19 | bleu = 21.67 | rouge_l = 37.92 | Precision = 45.78 | Recall = 38.86 | F1 = 39.74 | examples = 18505 | valid time = 149.32 (s) ]
+03/20/2022 10:54:58 PM: [ Best valid: bleu = 21.67 (epoch 19, 32984 updates) ]
+03/20/2022 10:56:36 PM: [ train: Epoch 20 | perplexity = 10.92 | ml_loss = 25.68 | Time for epoch = 97.31 (s) ]
+03/20/2022 10:59:25 PM: [ dev valid official: Epoch = 20 | bleu = 21.63 | rouge_l = 38.10 | Precision = 44.58 | Recall = 39.99 | F1 = 39.91 | examples = 18505 | valid time = 168.51 (s) ]
+03/20/2022 11:00:54 PM: [ train: Epoch 21 | perplexity = 10.17 | ml_loss = 25.22 | Time for epoch = 88.85 (s) ]
+03/20/2022 11:03:30 PM: [ dev valid official: Epoch = 21 | bleu = 21.67 | rouge_l = 38.10 | Precision = 43.91 | Recall = 40.40 | F1 = 39.85 | examples = 18505 | valid time = 154.70 (s) ]
+03/20/2022 11:04:57 PM: [ train: Epoch 22 | perplexity = 9.76 | ml_loss = 24.72 | Time for epoch = 87.53 (s) ]
+03/20/2022 11:07:28 PM: [ dev valid official: Epoch = 22 | bleu = 21.48 | rouge_l = 37.76 | Precision = 42.40 | Recall = 40.94 | F1 = 39.47 | examples = 18505 | valid time = 149.50 (s) ]
+03/20/2022 11:08:52 PM: [ train: Epoch 23 | perplexity = 9.48 | ml_loss = 24.22 | Time for epoch = 84.03 (s) ]
+03/20/2022 11:11:23 PM: [ dev valid official: Epoch = 23 | bleu = 21.98 | rouge_l = 38.28 | Precision = 43.78 | Recall = 40.73 | F1 = 40.04 | examples = 18505 | valid time = 150.66 (s) ]
+03/20/2022 11:11:23 PM: [ Best valid: bleu = 21.98 (epoch 23, 39928 updates) ]
+03/20/2022 11:12:50 PM: [ train: Epoch 24 | perplexity = 8.89 | ml_loss = 23.81 | Time for epoch = 86.57 (s) ]
+03/20/2022 11:15:24 PM: [ dev valid official: Epoch = 24 | bleu = 22.09 | rouge_l = 38.47 | Precision = 44.16 | Recall = 40.86 | F1 = 40.21 | examples = 18505 | valid time = 152.41 (s) ]
+03/20/2022 11:15:24 PM: [ Best valid: bleu = 22.09 (epoch 24, 41664 updates) ]
+03/20/2022 11:16:51 PM: [ train: Epoch 25 | perplexity = 8.41 | ml_loss = 23.35 | Time for epoch = 86.20 (s) ]
+03/20/2022 11:19:22 PM: [ dev valid official: Epoch = 25 | bleu = 22.06 | rouge_l = 38.40 | Precision = 43.26 | Recall = 41.33 | F1 = 40.11 | examples = 18505 | valid time = 150.43 (s) ]
+03/20/2022 11:20:45 PM: [ train: Epoch 26 | perplexity = 8.34 | ml_loss = 22.97 | Time for epoch = 83.41 (s) ]
+03/20/2022 11:23:18 PM: [ dev valid official: Epoch = 26 | bleu = 21.99 | rouge_l = 38.22 | Precision = 42.42 | Recall = 41.54 | F1 = 39.84 | examples = 18505 | valid time = 151.44 (s) ]
+03/20/2022 11:24:45 PM: [ train: Epoch 27 | perplexity = 8.04 | ml_loss = 22.56 | Time for epoch = 87.14 (s) ]
+03/20/2022 11:27:17 PM: [ dev valid official: Epoch = 27 | bleu = 22.23 | rouge_l = 38.64 | Precision = 43.16 | Recall = 41.69 | F1 = 40.28 | examples = 18505 | valid time = 151.55 (s) ]
+03/20/2022 11:27:17 PM: [ Best valid: bleu = 22.23 (epoch 27, 46872 updates) ]
+03/20/2022 11:28:45 PM: [ train: Epoch 28 | perplexity = 7.65 | ml_loss = 22.19 | Time for epoch = 86.99 (s) ]
+03/20/2022 11:31:17 PM: [ dev valid official: Epoch = 28 | bleu = 22.13 | rouge_l = 38.30 | Precision = 42.60 | Recall = 41.53 | F1 = 39.93 | examples = 18505 | valid time = 150.85 (s) ]
+03/20/2022 11:32:44 PM: [ train: Epoch 29 | perplexity = 7.29 | ml_loss = 21.82 | Time for epoch = 87.48 (s) ]
+03/20/2022 11:35:14 PM: [ dev valid official: Epoch = 29 | bleu = 22.61 | rouge_l = 38.91 | Precision = 44.58 | Recall = 41.27 | F1 = 40.68 | examples = 18505 | valid time = 148.53 (s) ]
+03/20/2022 11:35:14 PM: [ Best valid: bleu = 22.61 (epoch 29, 50344 updates) ]
+03/20/2022 11:36:43 PM: [ train: Epoch 30 | perplexity = 7.15 | ml_loss = 21.43 | Time for epoch = 88.42 (s) ]
+03/20/2022 11:39:12 PM: [ dev valid official: Epoch = 30 | bleu = 22.79 | rouge_l = 39.01 | Precision = 44.80 | Recall = 41.19 | F1 = 40.78 | examples = 18505 | valid time = 148.91 (s) ]
+03/20/2022 11:39:12 PM: [ Best valid: bleu = 22.79 (epoch 30, 52080 updates) ]
+03/20/2022 11:40:37 PM: [ train: Epoch 31 | perplexity = 6.94 | ml_loss = 21.08 | Time for epoch = 84.21 (s) ]
+03/20/2022 11:43:07 PM: [ dev valid official: Epoch = 31 | bleu = 22.54 | rouge_l = 38.85 | Precision = 43.87 | Recall = 41.74 | F1 = 40.57 | examples = 18505 | valid time = 149.01 (s) ]
+03/20/2022 11:44:31 PM: [ train: Epoch 32 | perplexity = 6.77 | ml_loss = 20.74 | Time for epoch = 84.08 (s) ]
+03/20/2022 11:47:03 PM: [ dev valid official: Epoch = 32 | bleu = 22.68 | rouge_l = 38.96 | Precision = 43.59 | Recall = 42.13 | F1 = 40.69 | examples = 18505 | valid time = 151.06 (s) ]
+03/20/2022 11:48:28 PM: [ train: Epoch 33 | perplexity = 6.44 | ml_loss = 20.43 | Time for epoch = 84.66 (s) ]
+03/20/2022 11:50:58 PM: [ dev valid official: Epoch = 33 | bleu = 22.86 | rouge_l = 38.88 | Precision = 43.75 | Recall = 41.61 | F1 = 40.55 | examples = 18505 | valid time = 149.37 (s) ]
+03/20/2022 11:50:58 PM: [ Best valid: bleu = 22.86 (epoch 33, 57288 updates) ]
+03/20/2022 11:52:24 PM: [ train: Epoch 34 | perplexity = 6.16 | ml_loss = 20.08 | Time for epoch = 85.55 (s) ]
+03/20/2022 11:54:57 PM: [ dev valid official: Epoch = 34 | bleu = 22.81 | rouge_l = 38.92 | Precision = 43.38 | Recall = 42.17 | F1 = 40.62 | examples = 18505 | valid time = 152.02 (s) ]
+03/20/2022 11:56:24 PM: [ train: Epoch 35 | perplexity = 6.02 | ml_loss = 19.77 | Time for epoch = 86.87 (s) ]
+03/20/2022 11:58:55 PM: [ dev valid official: Epoch = 35 | bleu = 23.15 | rouge_l = 39.25 | Precision = 44.90 | Recall = 41.52 | F1 = 40.99 | examples = 18505 | valid time = 150.25 (s) ]
+03/20/2022 11:58:55 PM: [ Best valid: bleu = 23.15 (epoch 35, 60760 updates) ]
+03/21/2022 12:00:22 AM: [ train: Epoch 36 | perplexity = 5.93 | ml_loss = 19.47 | Time for epoch = 86.60 (s) ]
+03/21/2022 12:02:52 AM: [ dev valid official: Epoch = 36 | bleu = 23.29 | rouge_l = 39.24 | Precision = 44.67 | Recall = 41.56 | F1 = 40.93 | examples = 18505 | valid time = 148.82 (s) ]
+03/21/2022 12:02:52 AM: [ Best valid: bleu = 23.29 (epoch 36, 62496 updates) ]
+03/21/2022 12:04:21 AM: [ train: Epoch 37 | perplexity = 5.73 | ml_loss = 19.18 | Time for epoch = 88.00 (s) ]
+03/21/2022 12:06:53 AM: [ dev valid official: Epoch = 37 | bleu = 22.98 | rouge_l = 39.09 | Precision = 43.29 | Recall = 42.36 | F1 = 40.73 | examples = 18505 | valid time = 151.67 (s) ]
+03/21/2022 12:08:16 AM: [ train: Epoch 38 | perplexity = 5.68 | ml_loss = 18.92 | Time for epoch = 82.92 (s) ]
+03/21/2022 12:10:47 AM: [ dev valid official: Epoch = 38 | bleu = 23.28 | rouge_l = 39.33 | Precision = 43.87 | Recall = 42.41 | F1 = 40.98 | examples = 18505 | valid time = 149.78 (s) ]
+03/21/2022 12:12:13 AM: [ train: Epoch 39 | perplexity = 5.50 | ml_loss = 18.65 | Time for epoch = 86.63 (s) ]
+03/21/2022 12:14:43 AM: [ dev valid official: Epoch = 39 | bleu = 23.22 | rouge_l = 39.27 | Precision = 44.02 | Recall = 42.20 | F1 = 40.95 | examples = 18505 | valid time = 149.10 (s) ]
+03/21/2022 12:16:11 AM: [ train: Epoch 40 | perplexity = 5.26 | ml_loss = 18.41 | Time for epoch = 87.25 (s) ]
+03/21/2022 12:18:41 AM: [ dev valid official: Epoch = 40 | bleu = 23.45 | rouge_l = 39.32 | Precision = 44.66 | Recall = 41.66 | F1 = 40.99 | examples = 18505 | valid time = 149.77 (s) ]
+03/21/2022 12:18:41 AM: [ Best valid: bleu = 23.45 (epoch 40, 69440 updates) ]
+03/21/2022 12:20:09 AM: [ train: Epoch 41 | perplexity = 5.20 | ml_loss = 18.14 | Time for epoch = 87.17 (s) ]
+03/21/2022 12:22:39 AM: [ dev valid official: Epoch = 41 | bleu = 23.30 | rouge_l = 39.36 | Precision = 43.63 | Recall = 42.58 | F1 = 40.99 | examples = 18505 | valid time = 149.28 (s) ]
+03/21/2022 12:24:04 AM: [ train: Epoch 42 | perplexity = 5.01 | ml_loss = 17.87 | Time for epoch = 85.22 (s) ]
+03/21/2022 12:26:34 AM: [ dev valid official: Epoch = 42 | bleu = 23.64 | rouge_l = 39.64 | Precision = 44.66 | Recall = 42.30 | F1 = 41.34 | examples = 18505 | valid time = 148.87 (s) ]
+03/21/2022 12:26:34 AM: [ Best valid: bleu = 23.64 (epoch 42, 72912 updates) ]
+03/21/2022 12:28:04 AM: [ train: Epoch 43 | perplexity = 4.89 | ml_loss = 17.62 | Time for epoch = 89.52 (s) ]
+03/21/2022 12:30:36 AM: [ dev valid official: Epoch = 43 | bleu = 23.49 | rouge_l = 39.47 | Precision = 43.55 | Recall = 42.79 | F1 = 41.09 | examples = 18505 | valid time = 150.47 (s) ]
+03/21/2022 12:32:04 AM: [ train: Epoch 44 | perplexity = 4.82 | ml_loss = 17.36 | Time for epoch = 88.14 (s) ]
+03/21/2022 12:34:35 AM: [ dev valid official: Epoch = 44 | bleu = 23.83 | rouge_l = 39.80 | Precision = 45.02 | Recall = 42.32 | F1 = 41.50 | examples = 18505 | valid time = 150.07 (s) ]
+03/21/2022 12:34:35 AM: [ Best valid: bleu = 23.83 (epoch 44, 76384 updates) ]
+03/21/2022 12:36:02 AM: [ train: Epoch 45 | perplexity = 4.81 | ml_loss = 17.17 | Time for epoch = 87.03 (s) ]
+03/21/2022 12:38:34 AM: [ dev valid official: Epoch = 45 | bleu = 23.88 | rouge_l = 39.86 | Precision = 45.40 | Recall = 42.18 | F1 = 41.59 | examples = 18505 | valid time = 150.56 (s) ]
+03/21/2022 12:38:34 AM: [ Best valid: bleu = 23.88 (epoch 45, 78120 updates) ]
+03/21/2022 12:40:01 AM: [ train: Epoch 46 | perplexity = 4.62 | ml_loss = 16.97 | Time for epoch = 87.11 (s) ]
+03/21/2022 12:42:36 AM: [ dev valid official: Epoch = 46 | bleu = 23.63 | rouge_l = 39.58 | Precision = 43.96 | Recall = 42.85 | F1 = 41.23 | examples = 18505 | valid time = 153.22 (s) ]
+03/21/2022 12:44:01 AM: [ train: Epoch 47 | perplexity = 4.52 | ml_loss = 16.72 | Time for epoch = 85.68 (s) ]
+03/21/2022 12:46:32 AM: [ dev valid official: Epoch = 47 | bleu = 23.83 | rouge_l = 39.86 | Precision = 44.12 | Recall = 43.06 | F1 = 41.46 | examples = 18505 | valid time = 149.95 (s) ]
+03/21/2022 12:47:58 AM: [ train: Epoch 48 | perplexity = 4.50 | ml_loss = 16.52 | Time for epoch = 85.73 (s) ]
+03/21/2022 12:50:28 AM: [ dev valid official: Epoch = 48 | bleu = 24.01 | rouge_l = 39.82 | Precision = 44.47 | Recall = 42.73 | F1 = 41.45 | examples = 18505 | valid time = 148.91 (s) ]
+03/21/2022 12:50:28 AM: [ Best valid: bleu = 24.01 (epoch 48, 83328 updates) ]
+03/21/2022 12:51:52 AM: [ train: Epoch 49 | perplexity = 4.40 | ml_loss = 16.32 | Time for epoch = 83.51 (s) ]
+03/21/2022 12:54:25 AM: [ dev valid official: Epoch = 49 | bleu = 24.06 | rouge_l = 39.99 | Precision = 45.23 | Recall = 42.57 | F1 = 41.70 | examples = 18505 | valid time = 152.38 (s) ]
+03/21/2022 12:54:25 AM: [ Best valid: bleu = 24.06 (epoch 49, 85064 updates) ]
+03/21/2022 12:55:53 AM: [ train: Epoch 50 | perplexity = 4.25 | ml_loss = 16.17 | Time for epoch = 87.90 (s) ]
+03/21/2022 12:58:24 AM: [ dev valid official: Epoch = 50 | bleu = 24.06 | rouge_l = 40.04 | Precision = 44.07 | Recall = 43.42 | F1 = 41.65 | examples = 18505 | valid time = 150.07 (s) ]
+03/21/2022 12:58:24 AM: [ Best valid: bleu = 24.06 (epoch 50, 86800 updates) ]
+03/21/2022 12:59:48 AM: [ train: Epoch 51 | perplexity = 4.22 | ml_loss = 15.89 | Time for epoch = 83.63 (s) ]
+03/21/2022 01:02:20 AM: [ dev valid official: Epoch = 51 | bleu = 24.05 | rouge_l = 39.80 | Precision = 43.87 | Recall = 43.15 | F1 = 41.40 | examples = 18505 | valid time = 150.35 (s) ]
+03/21/2022 01:03:45 AM: [ train: Epoch 52 | perplexity = 4.09 | ml_loss = 15.70 | Time for epoch = 85.17 (s) ]
+03/21/2022 01:06:16 AM: [ dev valid official: Epoch = 52 | bleu = 24.12 | rouge_l = 39.95 | Precision = 44.20 | Recall = 43.20 | F1 = 41.60 | examples = 18505 | valid time = 150.24 (s) ]
+03/21/2022 01:06:16 AM: [ Best valid: bleu = 24.12 (epoch 52, 90272 updates) ]
+03/21/2022 01:07:41 AM: [ train: Epoch 53 | perplexity = 4.09 | ml_loss = 15.53 | Time for epoch = 84.48 (s) ]
+03/21/2022 01:10:14 AM: [ dev valid official: Epoch = 53 | bleu = 23.87 | rouge_l = 39.75 | Precision = 43.32 | Recall = 43.59 | F1 = 41.36 | examples = 18505 | valid time = 152.35 (s) ]
+03/21/2022 01:11:40 AM: [ train: Epoch 54 | perplexity = 3.94 | ml_loss = 15.35 | Time for epoch = 85.33 (s) ]
+03/21/2022 01:14:15 AM: [ dev valid official: Epoch = 54 | bleu = 24.29 | rouge_l = 40.25 | Precision = 44.15 | Recall = 43.73 | F1 = 41.84 | examples = 18505 | valid time = 153.97 (s) ]
+03/21/2022 01:14:15 AM: [ Best valid: bleu = 24.29 (epoch 54, 93744 updates) ]
+03/21/2022 01:15:40 AM: [ train: Epoch 55 | perplexity = 3.95 | ml_loss = 15.13 | Time for epoch = 84.81 (s) ]
+03/21/2022 01:18:10 AM: [ dev valid official: Epoch = 55 | bleu = 24.43 | rouge_l = 40.26 | Precision = 45.01 | Recall = 43.05 | F1 = 41.91 | examples = 18505 | valid time = 148.83 (s) ]
+03/21/2022 01:18:10 AM: [ Best valid: bleu = 24.43 (epoch 55, 95480 updates) ]
+03/21/2022 01:19:34 AM: [ train: Epoch 56 | perplexity = 3.85 | ml_loss = 14.98 | Time for epoch = 83.46 (s) ]
+03/21/2022 01:22:03 AM: [ dev valid official: Epoch = 56 | bleu = 24.42 | rouge_l = 40.12 | Precision = 44.76 | Recall = 43.00 | F1 = 41.78 | examples = 18505 | valid time = 148.31 (s) ]
+03/21/2022 01:23:29 AM: [ train: Epoch 57 | perplexity = 3.80 | ml_loss = 14.81 | Time for epoch = 86.05 (s) ]
+03/21/2022 01:26:02 AM: [ dev valid official: Epoch = 57 | bleu = 24.71 | rouge_l = 40.52 | Precision = 45.46 | Recall = 43.11 | F1 = 42.19 | examples = 18505 | valid time = 151.79 (s) ]
+03/21/2022 01:26:02 AM: [ Best valid: bleu = 24.71 (epoch 57, 98952 updates) ]
+03/21/2022 01:27:29 AM: [ train: Epoch 58 | perplexity = 3.67 | ml_loss = 14.62 | Time for epoch = 86.34 (s) ]
+03/21/2022 01:29:58 AM: [ dev valid official: Epoch = 58 | bleu = 24.73 | rouge_l = 40.48 | Precision = 46.14 | Recall = 42.72 | F1 = 42.20 | examples = 18505 | valid time = 148.71 (s) ]
+03/21/2022 01:29:58 AM: [ Best valid: bleu = 24.73 (epoch 58, 100688 updates) ]
+03/21/2022 01:31:26 AM: [ train: Epoch 59 | perplexity = 3.62 | ml_loss = 14.47 | Time for epoch = 87.09 (s) ]
+03/21/2022 01:33:54 AM: [ dev valid official: Epoch = 59 | bleu = 24.65 | rouge_l = 40.42 | Precision = 44.44 | Recall = 43.69 | F1 = 42.01 | examples = 18505 | valid time = 147.54 (s) ]
+03/21/2022 01:35:18 AM: [ train: Epoch 60 | perplexity = 3.60 | ml_loss = 14.28 | Time for epoch = 83.53 (s) ]
+03/21/2022 01:37:48 AM: [ dev valid official: Epoch = 60 | bleu = 24.48 | rouge_l = 40.16 | Precision = 44.29 | Recall = 43.41 | F1 = 41.76 | examples = 18505 | valid time = 149.60 (s) ]
+03/21/2022 01:39:14 AM: [ train: Epoch 61 | perplexity = 3.51 | ml_loss = 14.15 | Time for epoch = 85.78 (s) ]
+03/21/2022 01:41:48 AM: [ dev valid official: Epoch = 61 | bleu = 24.81 | rouge_l = 40.63 | Precision = 44.90 | Recall = 43.84 | F1 = 42.30 | examples = 18505 | valid time = 152.86 (s) ]
+03/21/2022 01:41:48 AM: [ Best valid: bleu = 24.81 (epoch 61, 105896 updates) ]
+03/21/2022 01:43:14 AM: [ train: Epoch 62 | perplexity = 3.48 | ml_loss = 13.96 | Time for epoch = 85.68 (s) ]
+03/21/2022 01:45:46 AM: [ dev valid official: Epoch = 62 | bleu = 24.92 | rouge_l = 40.50 | Precision = 45.48 | Recall = 43.09 | F1 = 42.17 | examples = 18505 | valid time = 150.70 (s) ]
+03/21/2022 01:45:46 AM: [ Best valid: bleu = 24.92 (epoch 62, 107632 updates) ]
+03/21/2022 01:47:13 AM: [ train: Epoch 63 | perplexity = 3.45 | ml_loss = 13.86 | Time for epoch = 87.11 (s) ]
+03/21/2022 01:49:45 AM: [ dev valid official: Epoch = 63 | bleu = 24.74 | rouge_l = 40.46 | Precision = 44.02 | Recall = 44.11 | F1 = 41.98 | examples = 18505 | valid time = 150.92 (s) ]
+03/21/2022 01:51:11 AM: [ train: Epoch 64 | perplexity = 3.36 | ml_loss = 13.62 | Time for epoch = 86.36 (s) ]
+03/21/2022 01:53:44 AM: [ dev valid official: Epoch = 64 | bleu = 24.83 | rouge_l = 40.52 | Precision = 44.57 | Recall = 43.82 | F1 = 42.08 | examples = 18505 | valid time = 152.02 (s) ]
+03/21/2022 01:55:07 AM: [ train: Epoch 65 | perplexity = 3.31 | ml_loss = 13.49 | Time for epoch = 82.21 (s) ]
+03/21/2022 01:57:39 AM: [ dev valid official: Epoch = 65 | bleu = 24.79 | rouge_l = 40.55 | Precision = 44.45 | Recall = 43.98 | F1 = 42.14 | examples = 18505 | valid time = 151.70 (s) ]
+03/21/2022 01:59:05 AM: [ train: Epoch 66 | perplexity = 3.29 | ml_loss = 13.34 | Time for epoch = 86.21 (s) ]
+03/21/2022 02:01:38 AM: [ dev valid official: Epoch = 66 | bleu = 24.74 | rouge_l = 40.44 | Precision = 44.34 | Recall = 43.93 | F1 = 42.03 | examples = 18505 | valid time = 151.90 (s) ]
+03/21/2022 02:03:04 AM: [ train: Epoch 67 | perplexity = 3.23 | ml_loss = 13.25 | Time for epoch = 85.20 (s) ]
+03/21/2022 02:05:34 AM: [ dev valid official: Epoch = 67 | bleu = 24.84 | rouge_l = 40.46 | Precision = 44.23 | Recall = 44.00 | F1 = 42.03 | examples = 18505 | valid time = 149.67 (s) ]
+03/21/2022 02:07:00 AM: [ train: Epoch 68 | perplexity = 3.24 | ml_loss = 13.08 | Time for epoch = 85.67 (s) ]
+03/21/2022 02:09:33 AM: [ dev valid official: Epoch = 68 | bleu = 25.36 | rouge_l = 41.01 | Precision = 45.75 | Recall = 43.77 | F1 = 42.65 | examples = 18505 | valid time = 152.30 (s) ]
+03/21/2022 02:09:33 AM: [ Best valid: bleu = 25.36 (epoch 68, 118048 updates) ]
+03/21/2022 02:10:58 AM: [ train: Epoch 69 | perplexity = 3.22 | ml_loss = 12.96 | Time for epoch = 84.35 (s) ]
+03/21/2022 02:13:28 AM: [ dev valid official: Epoch = 69 | bleu = 25.42 | rouge_l = 41.04 | Precision = 45.63 | Recall = 43.90 | F1 = 42.68 | examples = 18505 | valid time = 148.80 (s) ]
+03/21/2022 02:13:28 AM: [ Best valid: bleu = 25.42 (epoch 69, 119784 updates) ]
+03/21/2022 02:14:51 AM: [ train: Epoch 70 | perplexity = 3.16 | ml_loss = 12.82 | Time for epoch = 83.36 (s) ]
+03/21/2022 02:17:22 AM: [ dev valid official: Epoch = 70 | bleu = 24.97 | rouge_l = 40.51 | Precision = 43.92 | Recall = 44.30 | F1 = 42.06 | examples = 18505 | valid time = 149.86 (s) ]
+03/21/2022 02:18:46 AM: [ train: Epoch 71 | perplexity = 3.09 | ml_loss = 12.72 | Time for epoch = 83.81 (s) ]
+03/21/2022 02:21:18 AM: [ dev valid official: Epoch = 71 | bleu = 25.26 | rouge_l = 40.75 | Precision = 44.82 | Recall = 44.04 | F1 = 42.31 | examples = 18505 | valid time = 150.53 (s) ]
+03/21/2022 02:22:42 AM: [ train: Epoch 72 | perplexity = 3.05 | ml_loss = 12.59 | Time for epoch = 84.65 (s) ]
+03/21/2022 02:25:10 AM: [ dev valid official: Epoch = 72 | bleu = 25.23 | rouge_l = 40.81 | Precision = 44.87 | Recall = 44.13 | F1 = 42.42 | examples = 18505 | valid time = 146.98 (s) ]
+03/21/2022 02:26:41 AM: [ train: Epoch 73 | perplexity = 3.01 | ml_loss = 12.46 | Time for epoch = 90.64 (s) ]
+03/21/2022 02:29:10 AM: [ dev valid official: Epoch = 73 | bleu = 25.30 | rouge_l = 40.76 | Precision = 44.91 | Recall = 44.16 | F1 = 42.42 | examples = 18505 | valid time = 148.15 (s) ]
+03/21/2022 02:30:36 AM: [ train: Epoch 74 | perplexity = 2.96 | ml_loss = 12.26 | Time for epoch = 86.21 (s) ]
+03/21/2022 02:33:05 AM: [ dev valid official: Epoch = 74 | bleu = 25.36 | rouge_l = 40.85 | Precision = 45.30 | Recall = 43.86 | F1 = 42.46 | examples = 18505 | valid time = 147.47 (s) ]
+03/21/2022 02:34:29 AM: [ train: Epoch 75 | perplexity = 2.98 | ml_loss = 12.18 | Time for epoch = 84.77 (s) ]
+03/21/2022 02:36:59 AM: [ dev valid official: Epoch = 75 | bleu = 25.49 | rouge_l = 41.00 | Precision = 45.22 | Recall = 44.03 | F1 = 42.60 | examples = 18505 | valid time = 148.89 (s) ]
+03/21/2022 02:36:59 AM: [ Best valid: bleu = 25.49 (epoch 75, 130200 updates) ]
+03/21/2022 02:38:25 AM: [ train: Epoch 76 | perplexity = 2.89 | ml_loss = 12.05 | Time for epoch = 85.56 (s) ]
+03/21/2022 02:40:54 AM: [ dev valid official: Epoch = 76 | bleu = 25.67 | rouge_l = 41.17 | Precision = 45.44 | Recall = 44.28 | F1 = 42.78 | examples = 18505 | valid time = 148.18 (s) ]
+03/21/2022 02:40:54 AM: [ Best valid: bleu = 25.67 (epoch 76, 131936 updates) ]
+03/21/2022 02:42:22 AM: [ train: Epoch 77 | perplexity = 2.88 | ml_loss = 11.96 | Time for epoch = 87.32 (s) ]
+03/21/2022 02:44:52 AM: [ dev valid official: Epoch = 77 | bleu = 25.67 | rouge_l = 41.28 | Precision = 45.32 | Recall = 44.60 | F1 = 42.84 | examples = 18505 | valid time = 149.29 (s) ]
+03/21/2022 02:46:20 AM: [ train: Epoch 78 | perplexity = 2.85 | ml_loss = 11.82 | Time for epoch = 87.59 (s) ]
+03/21/2022 02:48:49 AM: [ dev valid official: Epoch = 78 | bleu = 25.90 | rouge_l = 41.39 | Precision = 46.44 | Recall = 43.85 | F1 = 43.03 | examples = 18505 | valid time = 148.42 (s) ]
+03/21/2022 02:48:49 AM: [ Best valid: bleu = 25.90 (epoch 78, 135408 updates) ]
+03/21/2022 02:50:14 AM: [ train: Epoch 79 | perplexity = 2.83 | ml_loss = 11.72 | Time for epoch = 83.75 (s) ]
+03/21/2022 02:52:46 AM: [ dev valid official: Epoch = 79 | bleu = 25.52 | rouge_l = 40.95 | Precision = 44.87 | Recall = 44.24 | F1 = 42.51 | examples = 18505 | valid time = 151.08 (s) ]
+03/21/2022 02:54:11 AM: [ train: Epoch 80 | perplexity = 2.79 | ml_loss = 11.61 | Time for epoch = 85.39 (s) ]
+03/21/2022 02:56:39 AM: [ dev valid official: Epoch = 80 | bleu = 25.75 | rouge_l = 41.23 | Precision = 45.49 | Recall = 44.31 | F1 = 42.81 | examples = 18505 | valid time = 147.45 (s) ]
+03/21/2022 02:58:06 AM: [ train: Epoch 81 | perplexity = 2.78 | ml_loss = 11.52 | Time for epoch = 86.39 (s) ]
+03/21/2022 03:00:38 AM: [ dev valid official: Epoch = 81 | bleu = 25.63 | rouge_l = 41.15 | Precision = 44.82 | Recall = 44.75 | F1 = 42.70 | examples = 18505 | valid time = 151.20 (s) ]
+03/21/2022 03:02:04 AM: [ train: Epoch 82 | perplexity = 2.76 | ml_loss = 11.37 | Time for epoch = 86.10 (s) ]
+03/21/2022 03:04:37 AM: [ dev valid official: Epoch = 82 | bleu = 26.03 | rouge_l = 41.55 | Precision = 45.96 | Recall = 44.58 | F1 = 43.21 | examples = 18505 | valid time = 151.97 (s) ]
+03/21/2022 03:04:37 AM: [ Best valid: bleu = 26.03 (epoch 82, 142352 updates) ]
+03/21/2022 03:06:03 AM: [ train: Epoch 83 | perplexity = 2.71 | ml_loss = 11.32 | Time for epoch = 85.29 (s) ]
+03/21/2022 03:08:36 AM: [ dev valid official: Epoch = 83 | bleu = 25.62 | rouge_l = 41.10 | Precision = 44.45 | Recall = 44.86 | F1 = 42.60 | examples = 18505 | valid time = 152.04 (s) ]
+03/21/2022 03:09:58 AM: [ train: Epoch 84 | perplexity = 2.71 | ml_loss = 11.16 | Time for epoch = 82.28 (s) ]
+03/21/2022 03:12:27 AM: [ dev valid official: Epoch = 84 | bleu = 25.65 | rouge_l = 41.15 | Precision = 44.95 | Recall = 44.64 | F1 = 42.72 | examples = 18505 | valid time = 148.33 (s) ]
+03/21/2022 03:13:51 AM: [ train: Epoch 85 | perplexity = 2.67 | ml_loss = 11.10 | Time for epoch = 83.41 (s) ]
+03/21/2022 03:16:19 AM: [ dev valid official: Epoch = 85 | bleu = 26.06 | rouge_l = 41.52 | Precision = 46.10 | Recall = 44.34 | F1 = 43.14 | examples = 18505 | valid time = 147.93 (s) ]
+03/21/2022 03:16:19 AM: [ Best valid: bleu = 26.06 (epoch 85, 147560 updates) ]
+03/21/2022 03:17:48 AM: [ train: Epoch 86 | perplexity = 2.65 | ml_loss = 10.97 | Time for epoch = 87.86 (s) ]
+03/21/2022 03:20:19 AM: [ dev valid official: Epoch = 86 | bleu = 25.87 | rouge_l = 41.37 | Precision = 45.40 | Recall = 44.69 | F1 = 42.97 | examples = 18505 | valid time = 150.66 (s) ]
+03/21/2022 03:21:50 AM: [ train: Epoch 87 | perplexity = 2.61 | ml_loss = 10.90 | Time for epoch = 90.64 (s) ]
+03/21/2022 03:24:22 AM: [ dev valid official: Epoch = 87 | bleu = 26.08 | rouge_l = 41.55 | Precision = 45.48 | Recall = 44.92 | F1 = 43.14 | examples = 18505 | valid time = 150.76 (s) ]
+03/21/2022 03:24:22 AM: [ Best valid: bleu = 26.08 (epoch 87, 151032 updates) ]
+03/21/2022 03:25:47 AM: [ train: Epoch 88 | perplexity = 2.61 | ml_loss = 10.77 | Time for epoch = 84.92 (s) ]
+03/21/2022 03:28:19 AM: [ dev valid official: Epoch = 88 | bleu = 26.35 | rouge_l = 41.71 | Precision = 46.08 | Recall = 44.59 | F1 = 43.29 | examples = 18505 | valid time = 151.30 (s) ]
+03/21/2022 03:28:19 AM: [ Best valid: bleu = 26.35 (epoch 88, 152768 updates) ]
+03/21/2022 03:29:46 AM: [ train: Epoch 89 | perplexity = 2.57 | ml_loss = 10.74 | Time for epoch = 86.58 (s) ]
+03/21/2022 03:32:19 AM: [ dev valid official: Epoch = 89 | bleu = 26.24 | rouge_l = 41.50 | Precision = 45.83 | Recall = 44.43 | F1 = 43.08 | examples = 18505 | valid time = 151.50 (s) ]
+03/21/2022 03:33:47 AM: [ train: Epoch 90 | perplexity = 2.54 | ml_loss = 10.61 | Time for epoch = 88.06 (s) ]
+03/21/2022 03:36:21 AM: [ dev valid official: Epoch = 90 | bleu = 26.14 | rouge_l = 41.49 | Precision = 45.16 | Recall = 44.91 | F1 = 43.01 | examples = 18505 | valid time = 152.78 (s) ]
+03/21/2022 03:37:45 AM: [ train: Epoch 91 | perplexity = 2.55 | ml_loss = 10.49 | Time for epoch = 83.77 (s) ]
+03/21/2022 03:40:14 AM: [ dev valid official: Epoch = 91 | bleu = 26.19 | rouge_l = 41.44 | Precision = 45.67 | Recall = 44.47 | F1 = 42.99 | examples = 18505 | valid time = 148.68 (s) ]
+03/21/2022 03:41:38 AM: [ train: Epoch 92 | perplexity = 2.52 | ml_loss = 10.46 | Time for epoch = 84.27 (s) ]
+03/21/2022 03:44:11 AM: [ dev valid official: Epoch = 92 | bleu = 26.30 | rouge_l = 41.71 | Precision = 45.64 | Recall = 45.03 | F1 = 43.29 | examples = 18505 | valid time = 151.96 (s) ]
+03/21/2022 03:45:36 AM: [ train: Epoch 93 | perplexity = 2.51 | ml_loss = 10.34 | Time for epoch = 84.84 (s) ]
+03/21/2022 03:48:05 AM: [ dev valid official: Epoch = 93 | bleu = 26.44 | rouge_l = 41.94 | Precision = 46.28 | Recall = 44.95 | F1 = 43.54 | examples = 18505 | valid time = 147.77 (s) ]
+03/21/2022 03:48:05 AM: [ Best valid: bleu = 26.44 (epoch 93, 161448 updates) ]
+03/21/2022 03:49:31 AM: [ train: Epoch 94 | perplexity = 2.46 | ml_loss = 10.23 | Time for epoch = 86.09 (s) ]
+03/21/2022 03:52:02 AM: [ dev valid official: Epoch = 94 | bleu = 26.47 | rouge_l = 41.76 | Precision = 46.14 | Recall = 44.72 | F1 = 43.39 | examples = 18505 | valid time = 150.00 (s) ]
+03/21/2022 03:52:02 AM: [ Best valid: bleu = 26.47 (epoch 94, 163184 updates) ]
+03/21/2022 03:53:28 AM: [ train: Epoch 95 | perplexity = 2.46 | ml_loss = 10.14 | Time for epoch = 85.55 (s) ]
+03/21/2022 03:56:00 AM: [ dev valid official: Epoch = 95 | bleu = 26.20 | rouge_l = 41.53 | Precision = 45.42 | Recall = 44.90 | F1 = 43.11 | examples = 18505 | valid time = 151.11 (s) ]
+03/21/2022 03:57:26 AM: [ train: Epoch 96 | perplexity = 2.45 | ml_loss = 10.07 | Time for epoch = 86.02 (s) ]
+03/21/2022 03:59:59 AM: [ dev valid official: Epoch = 96 | bleu = 26.57 | rouge_l = 41.81 | Precision = 46.23 | Recall = 44.74 | F1 = 43.43 | examples = 18505 | valid time = 151.18 (s) ]
+03/21/2022 03:59:59 AM: [ Best valid: bleu = 26.57 (epoch 96, 166656 updates) ]
+03/21/2022 04:01:26 AM: [ train: Epoch 97 | perplexity = 2.41 | ml_loss = 9.99 | Time for epoch = 86.73 (s) ]
+03/21/2022 04:03:58 AM: [ dev valid official: Epoch = 97 | bleu = 26.32 | rouge_l = 41.69 | Precision = 45.31 | Recall = 45.22 | F1 = 43.23 | examples = 18505 | valid time = 150.88 (s) ]
+03/21/2022 04:05:22 AM: [ train: Epoch 98 | perplexity = 2.39 | ml_loss = 9.92 | Time for epoch = 84.45 (s) ]
+03/21/2022 04:07:52 AM: [ dev valid official: Epoch = 98 | bleu = 26.47 | rouge_l = 41.74 | Precision = 45.99 | Recall = 44.83 | F1 = 43.33 | examples = 18505 | valid time = 149.18 (s) ]
+03/21/2022 04:09:16 AM: [ train: Epoch 99 | perplexity = 2.39 | ml_loss = 9.83 | Time for epoch = 84.20 (s) ]
+03/21/2022 04:11:44 AM: [ dev valid official: Epoch = 99 | bleu = 26.57 | rouge_l = 41.96 | Precision = 46.35 | Recall = 44.94 | F1 = 43.56 | examples = 18505 | valid time = 146.32 (s) ]
+03/21/2022 04:13:11 AM: [ train: Epoch 100 | perplexity = 2.34 | ml_loss = 9.74 | Time for epoch = 87.21 (s) ]
+03/21/2022 04:15:43 AM: [ dev valid official: Epoch = 100 | bleu = 26.69 | rouge_l = 42.07 | Precision = 45.92 | Recall = 45.38 | F1 = 43.63 | examples = 18505 | valid time = 150.95 (s) ]
+03/21/2022 04:15:43 AM: [ Best valid: bleu = 26.69 (epoch 100, 173600 updates) ]
+03/21/2022 04:17:09 AM: [ train: Epoch 101 | perplexity = 2.34 | ml_loss = 9.66 | Time for epoch = 85.56 (s) ]
+03/21/2022 04:19:38 AM: [ dev valid official: Epoch = 101 | bleu = 26.49 | rouge_l = 41.90 | Precision = 45.74 | Recall = 45.21 | F1 = 43.46 | examples = 18505 | valid time = 148.31 (s) ]
+03/21/2022 04:21:05 AM: [ train: Epoch 102 | perplexity = 2.31 | ml_loss = 9.57 | Time for epoch = 86.38 (s) ]
+03/21/2022 04:23:35 AM: [ dev valid official: Epoch = 102 | bleu = 26.65 | rouge_l = 41.90 | Precision = 45.79 | Recall = 45.18 | F1 = 43.43 | examples = 18505 | valid time = 149.73 (s) ]
+03/21/2022 04:25:01 AM: [ train: Epoch 103 | perplexity = 2.32 | ml_loss = 9.50 | Time for epoch = 85.40 (s) ]
+03/21/2022 04:27:34 AM: [ dev valid official: Epoch = 103 | bleu = 26.88 | rouge_l = 42.21 | Precision = 46.77 | Recall = 44.98 | F1 = 43.81 | examples = 18505 | valid time = 152.19 (s) ]
+03/21/2022 04:27:34 AM: [ Best valid: bleu = 26.88 (epoch 103, 178808 updates) ]
+03/21/2022 04:29:00 AM: [ train: Epoch 104 | perplexity = 2.30 | ml_loss = 9.43 | Time for epoch = 86.08 (s) ]
+03/21/2022 04:31:32 AM: [ dev valid official: Epoch = 104 | bleu = 26.53 | rouge_l = 41.82 | Precision = 45.27 | Recall = 45.43 | F1 = 43.33 | examples = 18505 | valid time = 150.72 (s) ]
+03/21/2022 04:32:57 AM: [ train: Epoch 105 | perplexity = 2.28 | ml_loss = 9.36 | Time for epoch = 85.15 (s) ]
+03/21/2022 04:35:26 AM: [ dev valid official: Epoch = 105 | bleu = 26.64 | rouge_l = 41.93 | Precision = 45.70 | Recall = 45.41 | F1 = 43.47 | examples = 18505 | valid time = 148.07 (s) ]
+03/21/2022 04:36:52 AM: [ train: Epoch 106 | perplexity = 2.26 | ml_loss = 9.26 | Time for epoch = 85.73 (s) ]
+03/21/2022 04:39:23 AM: [ dev valid official: Epoch = 106 | bleu = 26.82 | rouge_l = 42.09 | Precision = 46.27 | Recall = 45.16 | F1 = 43.66 | examples = 18505 | valid time = 149.83 (s) ]
+03/21/2022 04:40:50 AM: [ train: Epoch 107 | perplexity = 2.24 | ml_loss = 9.23 | Time for epoch = 87.65 (s) ]
+03/21/2022 04:43:21 AM: [ dev valid official: Epoch = 107 | bleu = 26.66 | rouge_l = 41.99 | Precision = 45.76 | Recall = 45.46 | F1 = 43.56 | examples = 18505 | valid time = 149.99 (s) ]
+03/21/2022 04:44:49 AM: [ train: Epoch 108 | perplexity = 2.22 | ml_loss = 9.13 | Time for epoch = 87.50 (s) ]
+03/21/2022 04:47:21 AM: [ dev valid official: Epoch = 108 | bleu = 26.71 | rouge_l = 41.87 | Precision = 45.67 | Recall = 45.19 | F1 = 43.39 | examples = 18505 | valid time = 151.43 (s) ]
+03/21/2022 04:48:47 AM: [ train: Epoch 109 | perplexity = 2.21 | ml_loss = 9.04 | Time for epoch = 85.41 (s) ]
+03/21/2022 04:51:19 AM: [ dev valid official: Epoch = 109 | bleu = 26.66 | rouge_l = 41.94 | Precision = 45.62 | Recall = 45.43 | F1 = 43.47 | examples = 18505 | valid time = 151.10 (s) ]
+03/21/2022 04:52:42 AM: [ train: Epoch 110 | perplexity = 2.19 | ml_loss = 8.97 | Time for epoch = 83.39 (s) ]
+03/21/2022 04:55:13 AM: [ dev valid official: Epoch = 110 | bleu = 26.88 | rouge_l = 42.01 | Precision = 45.77 | Recall = 45.42 | F1 = 43.55 | examples = 18505 | valid time = 149.77 (s) ]
+03/21/2022 04:56:38 AM: [ train: Epoch 111 | perplexity = 2.19 | ml_loss = 8.94 | Time for epoch = 85.36 (s) ]
+03/21/2022 04:59:07 AM: [ dev valid official: Epoch = 111 | bleu = 26.99 | rouge_l = 42.19 | Precision = 46.68 | Recall = 45.11 | F1 = 43.79 | examples = 18505 | valid time = 148.24 (s) ]
+03/21/2022 04:59:07 AM: [ Best valid: bleu = 26.99 (epoch 111, 192696 updates) ]
+03/21/2022 05:00:41 AM: [ train: Epoch 112 | perplexity = 2.18 | ml_loss = 8.86 | Time for epoch = 92.98 (s) ]
+03/21/2022 05:03:25 AM: [ dev valid official: Epoch = 112 | bleu = 27.12 | rouge_l = 42.28 | Precision = 46.83 | Recall = 45.13 | F1 = 43.87 | examples = 18505 | valid time = 162.91 (s) ]
+03/21/2022 05:03:25 AM: [ Best valid: bleu = 27.12 (epoch 112, 194432 updates) ]
+03/21/2022 05:04:49 AM: [ train: Epoch 113 | perplexity = 2.17 | ml_loss = 8.79 | Time for epoch = 83.25 (s) ]
+03/21/2022 05:07:19 AM: [ dev valid official: Epoch = 113 | bleu = 27.18 | rouge_l = 42.46 | Precision = 46.78 | Recall = 45.47 | F1 = 44.07 | examples = 18505 | valid time = 149.68 (s) ]
+03/21/2022 05:07:19 AM: [ Best valid: bleu = 27.18 (epoch 113, 196168 updates) ]
+03/21/2022 05:08:44 AM: [ train: Epoch 114 | perplexity = 2.15 | ml_loss = 8.73 | Time for epoch = 84.47 (s) ]
+03/21/2022 05:11:15 AM: [ dev valid official: Epoch = 114 | bleu = 26.92 | rouge_l = 42.22 | Precision = 45.91 | Recall = 45.82 | F1 = 43.77 | examples = 18505 | valid time = 149.66 (s) ]
+03/21/2022 05:12:37 AM: [ train: Epoch 115 | perplexity = 2.15 | ml_loss = 8.65 | Time for epoch = 82.15 (s) ]
+03/21/2022 05:15:09 AM: [ dev valid official: Epoch = 115 | bleu = 27.05 | rouge_l = 42.28 | Precision = 46.36 | Recall = 45.43 | F1 = 43.85 | examples = 18505 | valid time = 151.56 (s) ]
+03/21/2022 05:16:35 AM: [ train: Epoch 116 | perplexity = 2.13 | ml_loss = 8.63 | Time for epoch = 85.83 (s) ]
+03/21/2022 05:19:05 AM: [ dev valid official: Epoch = 116 | bleu = 27.13 | rouge_l = 42.33 | Precision = 46.52 | Recall = 45.45 | F1 = 43.90 | examples = 18505 | valid time = 149.35 (s) ]
+03/21/2022 05:20:29 AM: [ train: Epoch 117 | perplexity = 2.12 | ml_loss = 8.53 | Time for epoch = 83.62 (s) ]
+03/21/2022 05:22:59 AM: [ dev valid official: Epoch = 117 | bleu = 27.18 | rouge_l = 42.37 | Precision = 46.46 | Recall = 45.51 | F1 = 43.93 | examples = 18505 | valid time = 149.18 (s) ]
+03/21/2022 05:22:59 AM: [ Best valid: bleu = 27.18 (epoch 117, 203112 updates) ]
+03/21/2022 05:24:24 AM: [ train: Epoch 118 | perplexity = 2.10 | ml_loss = 8.50 | Time for epoch = 83.82 (s) ]
+03/21/2022 05:26:53 AM: [ dev valid official: Epoch = 118 | bleu = 27.22 | rouge_l = 42.31 | Precision = 46.36 | Recall = 45.44 | F1 = 43.86 | examples = 18505 | valid time = 148.90 (s) ]
+03/21/2022 05:26:53 AM: [ Best valid: bleu = 27.22 (epoch 118, 204848 updates) ]
+03/21/2022 05:28:18 AM: [ train: Epoch 119 | perplexity = 2.09 | ml_loss = 8.42 | Time for epoch = 83.95 (s) ]
+03/21/2022 05:30:49 AM: [ dev valid official: Epoch = 119 | bleu = 27.19 | rouge_l = 42.36 | Precision = 46.47 | Recall = 45.45 | F1 = 43.90 | examples = 18505 | valid time = 150.10 (s) ]
+03/21/2022 05:32:15 AM: [ train: Epoch 120 | perplexity = 2.06 | ml_loss = 8.36 | Time for epoch = 86.31 (s) ]
+03/21/2022 05:34:44 AM: [ dev valid official: Epoch = 120 | bleu = 27.22 | rouge_l = 42.44 | Precision = 46.51 | Recall = 45.57 | F1 = 43.97 | examples = 18505 | valid time = 147.96 (s) ]
+03/21/2022 05:36:07 AM: [ train: Epoch 121 | perplexity = 2.07 | ml_loss = 8.28 | Time for epoch = 83.26 (s) ]
+03/21/2022 05:38:38 AM: [ dev valid official: Epoch = 121 | bleu = 27.23 | rouge_l = 42.42 | Precision = 46.71 | Recall = 45.45 | F1 = 43.97 | examples = 18505 | valid time = 150.16 (s) ]
+03/21/2022 05:38:38 AM: [ Best valid: bleu = 27.23 (epoch 121, 210056 updates) ]
+03/21/2022 05:40:03 AM: [ train: Epoch 122 | perplexity = 2.07 | ml_loss = 8.26 | Time for epoch = 84.00 (s) ]
+03/21/2022 05:42:36 AM: [ dev valid official: Epoch = 122 | bleu = 27.26 | rouge_l = 42.41 | Precision = 46.54 | Recall = 45.49 | F1 = 43.97 | examples = 18505 | valid time = 152.28 (s) ]
+03/21/2022 05:42:36 AM: [ Best valid: bleu = 27.26 (epoch 122, 211792 updates) ]
+03/21/2022 05:44:02 AM: [ train: Epoch 123 | perplexity = 2.05 | ml_loss = 8.19 | Time for epoch = 85.84 (s) ]
+03/21/2022 05:46:35 AM: [ dev valid official: Epoch = 123 | bleu = 27.43 | rouge_l = 42.54 | Precision = 46.76 | Recall = 45.55 | F1 = 44.10 | examples = 18505 | valid time = 151.72 (s) ]
+03/21/2022 05:46:35 AM: [ Best valid: bleu = 27.43 (epoch 123, 213528 updates) ]
+03/21/2022 05:48:02 AM: [ train: Epoch 124 | perplexity = 2.04 | ml_loss = 8.13 | Time for epoch = 86.86 (s) ]
+03/21/2022 05:50:33 AM: [ dev valid official: Epoch = 124 | bleu = 27.41 | rouge_l = 42.62 | Precision = 46.67 | Recall = 45.92 | F1 = 44.22 | examples = 18505 | valid time = 149.48 (s) ]
+03/21/2022 05:52:00 AM: [ train: Epoch 125 | perplexity = 2.02 | ml_loss = 8.09 | Time for epoch = 87.61 (s) ]
+03/21/2022 05:54:31 AM: [ dev valid official: Epoch = 125 | bleu = 27.25 | rouge_l = 42.46 | Precision = 46.55 | Recall = 45.65 | F1 = 44.06 | examples = 18505 | valid time = 149.27 (s) ]
+03/21/2022 05:55:58 AM: [ train: Epoch 126 | perplexity = 2.00 | ml_loss = 8.00 | Time for epoch = 87.68 (s) ]
+03/21/2022 05:58:27 AM: [ dev valid official: Epoch = 126 | bleu = 27.25 | rouge_l = 42.49 | Precision = 46.04 | Recall = 46.15 | F1 = 44.06 | examples = 18505 | valid time = 147.94 (s) ]
+03/21/2022 05:59:49 AM: [ train: Epoch 127 | perplexity = 2.01 | ml_loss = 7.97 | Time for epoch = 82.17 (s) ]
+03/21/2022 06:02:19 AM: [ dev valid official: Epoch = 127 | bleu = 27.39 | rouge_l = 42.53 | Precision = 46.25 | Recall = 45.94 | F1 = 44.06 | examples = 18505 | valid time = 148.89 (s) ]
+03/21/2022 06:03:43 AM: [ train: Epoch 128 | perplexity = 1.99 | ml_loss = 7.92 | Time for epoch = 83.58 (s) ]
+03/21/2022 06:06:11 AM: [ dev valid official: Epoch = 128 | bleu = 27.32 | rouge_l = 42.52 | Precision = 46.56 | Recall = 45.68 | F1 = 44.07 | examples = 18505 | valid time = 147.54 (s) ]
+03/21/2022 06:07:37 AM: [ train: Epoch 129 | perplexity = 1.99 | ml_loss = 7.84 | Time for epoch = 85.54 (s) ]
+03/21/2022 06:10:07 AM: [ dev valid official: Epoch = 129 | bleu = 27.25 | rouge_l = 42.39 | Precision = 45.88 | Recall = 46.05 | F1 = 43.92 | examples = 18505 | valid time = 149.39 (s) ]
+03/21/2022 06:11:32 AM: [ train: Epoch 130 | perplexity = 1.98 | ml_loss = 7.82 | Time for epoch = 84.98 (s) ]
+03/21/2022 06:14:02 AM: [ dev valid official: Epoch = 130 | bleu = 27.30 | rouge_l = 42.39 | Precision = 45.98 | Recall = 45.87 | F1 = 43.88 | examples = 18505 | valid time = 148.59 (s) ]
+03/21/2022 06:15:28 AM: [ train: Epoch 131 | perplexity = 1.95 | ml_loss = 7.71 | Time for epoch = 86.39 (s) ]
+03/21/2022 06:17:59 AM: [ dev valid official: Epoch = 131 | bleu = 27.41 | rouge_l = 42.42 | Precision = 46.13 | Recall = 45.72 | F1 = 43.92 | examples = 18505 | valid time = 149.81 (s) ]
+03/21/2022 06:19:25 AM: [ train: Epoch 132 | perplexity = 1.95 | ml_loss = 7.67 | Time for epoch = 86.04 (s) ]
+03/21/2022 06:21:53 AM: [ dev valid official: Epoch = 132 | bleu = 27.39 | rouge_l = 42.42 | Precision = 45.94 | Recall = 45.99 | F1 = 43.94 | examples = 18505 | valid time = 147.64 (s) ]
+03/21/2022 06:23:17 AM: [ train: Epoch 133 | perplexity = 1.95 | ml_loss = 7.65 | Time for epoch = 83.56 (s) ]
+03/21/2022 06:25:47 AM: [ dev valid official: Epoch = 133 | bleu = 27.59 | rouge_l = 42.76 | Precision = 46.70 | Recall = 45.99 | F1 = 44.30 | examples = 18505 | valid time = 149.19 (s) ]
+03/21/2022 06:25:47 AM: [ Best valid: bleu = 27.59 (epoch 133, 230888 updates) ]
+03/21/2022 06:27:13 AM: [ train: Epoch 134 | perplexity = 1.94 | ml_loss = 7.58 | Time for epoch = 85.55 (s) ]
+03/21/2022 06:29:41 AM: [ dev valid official: Epoch = 134 | bleu = 27.68 | rouge_l = 42.68 | Precision = 46.73 | Recall = 45.78 | F1 = 44.22 | examples = 18505 | valid time = 146.72 (s) ]
+03/21/2022 06:29:41 AM: [ Best valid: bleu = 27.68 (epoch 134, 232624 updates) ]
+03/21/2022 06:31:10 AM: [ train: Epoch 135 | perplexity = 1.94 | ml_loss = 7.54 | Time for epoch = 88.81 (s) ]
+03/21/2022 06:33:38 AM: [ dev valid official: Epoch = 135 | bleu = 27.59 | rouge_l = 42.64 | Precision = 46.43 | Recall = 45.98 | F1 = 44.20 | examples = 18505 | valid time = 146.84 (s) ]
+03/21/2022 06:35:02 AM: [ train: Epoch 136 | perplexity = 1.92 | ml_loss = 7.47 | Time for epoch = 83.96 (s) ]
+03/21/2022 06:37:32 AM: [ dev valid official: Epoch = 136 | bleu = 27.65 | rouge_l = 42.69 | Precision = 46.64 | Recall = 45.82 | F1 = 44.23 | examples = 18505 | valid time = 149.20 (s) ]
+03/21/2022 06:38:55 AM: [ train: Epoch 137 | perplexity = 1.92 | ml_loss = 7.44 | Time for epoch = 83.16 (s) ]
+03/21/2022 06:41:24 AM: [ dev valid official: Epoch = 137 | bleu = 27.70 | rouge_l = 42.75 | Precision = 46.68 | Recall = 45.82 | F1 = 44.26 | examples = 18505 | valid time = 147.73 (s) ]
+03/21/2022 06:41:24 AM: [ Best valid: bleu = 27.70 (epoch 137, 237832 updates) ]
+03/21/2022 06:42:47 AM: [ train: Epoch 138 | perplexity = 1.91 | ml_loss = 7.40 | Time for epoch = 82.56 (s) ]
+03/21/2022 06:45:19 AM: [ dev valid official: Epoch = 138 | bleu = 27.51 | rouge_l = 42.52 | Precision = 46.16 | Recall = 46.05 | F1 = 44.06 | examples = 18505 | valid time = 151.63 (s) ]
+03/21/2022 06:46:46 AM: [ train: Epoch 139 | perplexity = 1.90 | ml_loss = 7.36 | Time for epoch = 86.59 (s) ]
+03/21/2022 06:49:16 AM: [ dev valid official: Epoch = 139 | bleu = 27.74 | rouge_l = 42.75 | Precision = 46.98 | Recall = 45.67 | F1 = 44.31 | examples = 18505 | valid time = 149.27 (s) ]
+03/21/2022 06:49:16 AM: [ Best valid: bleu = 27.74 (epoch 139, 241304 updates) ]
+03/21/2022 06:50:41 AM: [ train: Epoch 140 | perplexity = 1.89 | ml_loss = 7.30 | Time for epoch = 84.48 (s) ]
+03/21/2022 06:53:12 AM: [ dev valid official: Epoch = 140 | bleu = 27.79 | rouge_l = 42.89 | Precision = 47.03 | Recall = 45.95 | F1 = 44.45 | examples = 18505 | valid time = 149.70 (s) ]
+03/21/2022 06:53:12 AM: [ Best valid: bleu = 27.79 (epoch 140, 243040 updates) ]
+03/21/2022 06:54:35 AM: [ train: Epoch 141 | perplexity = 1.88 | ml_loss = 7.27 | Time for epoch = 82.53 (s) ]
+03/21/2022 06:57:05 AM: [ dev valid official: Epoch = 141 | bleu = 27.76 | rouge_l = 42.85 | Precision = 46.88 | Recall = 45.93 | F1 = 44.37 | examples = 18505 | valid time = 149.18 (s) ]
+03/21/2022 06:58:27 AM: [ train: Epoch 142 | perplexity = 1.88 | ml_loss = 7.21 | Time for epoch = 82.00 (s) ]
+03/21/2022 07:00:53 AM: [ dev valid official: Epoch = 142 | bleu = 27.84 | rouge_l = 42.93 | Precision = 47.18 | Recall = 45.92 | F1 = 44.49 | examples = 18505 | valid time = 145.17 (s) ]
+03/21/2022 07:00:53 AM: [ Best valid: bleu = 27.84 (epoch 142, 246512 updates) ]
+03/21/2022 07:02:20 AM: [ train: Epoch 143 | perplexity = 1.87 | ml_loss = 7.18 | Time for epoch = 86.54 (s) ]
+03/21/2022 07:04:51 AM: [ dev valid official: Epoch = 143 | bleu = 27.91 | rouge_l = 42.99 | Precision = 47.20 | Recall = 46.02 | F1 = 44.57 | examples = 18505 | valid time = 149.59 (s) ]
+03/21/2022 07:04:51 AM: [ Best valid: bleu = 27.91 (epoch 143, 248248 updates) ]
+03/21/2022 07:06:14 AM: [ train: Epoch 144 | perplexity = 1.86 | ml_loss = 7.13 | Time for epoch = 83.28 (s) ]
+03/21/2022 07:08:46 AM: [ dev valid official: Epoch = 144 | bleu = 27.89 | rouge_l = 42.95 | Precision = 46.91 | Recall = 46.13 | F1 = 44.48 | examples = 18505 | valid time = 150.92 (s) ]
+03/21/2022 07:10:12 AM: [ train: Epoch 145 | perplexity = 1.85 | ml_loss = 7.08 | Time for epoch = 85.71 (s) ]
+03/21/2022 07:12:41 AM: [ dev valid official: Epoch = 145 | bleu = 27.84 | rouge_l = 42.92 | Precision = 47.03 | Recall = 46.05 | F1 = 44.50 | examples = 18505 | valid time = 148.15 (s) ]
+03/21/2022 07:14:06 AM: [ train: Epoch 146 | perplexity = 1.85 | ml_loss = 7.04 | Time for epoch = 84.49 (s) ]
+03/21/2022 07:16:39 AM: [ dev valid official: Epoch = 146 | bleu = 27.83 | rouge_l = 42.84 | Precision = 46.69 | Recall = 46.14 | F1 = 44.40 | examples = 18505 | valid time = 152.87 (s) ]
+03/21/2022 07:18:13 AM: [ train: Epoch 147 | perplexity = 1.84 | ml_loss = 7.01 | Time for epoch = 93.38 (s) ]
+03/21/2022 07:20:53 AM: [ dev valid official: Epoch = 147 | bleu = 27.89 | rouge_l = 42.93 | Precision = 46.91 | Recall = 46.13 | F1 = 44.49 | examples = 18505 | valid time = 159.05 (s) ]
+03/21/2022 07:22:23 AM: [ train: Epoch 148 | perplexity = 1.84 | ml_loss = 6.99 | Time for epoch = 90.39 (s) ]
+03/21/2022 07:25:02 AM: [ dev valid official: Epoch = 148 | bleu = 27.95 | rouge_l = 43.07 | Precision = 47.00 | Recall = 46.25 | F1 = 44.61 | examples = 18505 | valid time = 157.44 (s) ]
+03/21/2022 07:25:02 AM: [ Best valid: bleu = 27.95 (epoch 148, 256928 updates) ]
+03/21/2022 07:26:37 AM: [ train: Epoch 149 | perplexity = 1.82 | ml_loss = 6.91 | Time for epoch = 95.04 (s) ]
+03/21/2022 07:29:13 AM: [ dev valid official: Epoch = 149 | bleu = 27.92 | rouge_l = 42.96 | Precision = 46.93 | Recall = 46.13 | F1 = 44.52 | examples = 18505 | valid time = 154.65 (s) ]
+03/21/2022 07:30:46 AM: [ train: Epoch 150 | perplexity = 1.82 | ml_loss = 6.86 | Time for epoch = 93.50 (s) ]
+03/21/2022 07:33:29 AM: [ dev valid official: Epoch = 150 | bleu = 27.93 | rouge_l = 42.98 | Precision = 46.65 | Recall = 46.40 | F1 = 44.52 | examples = 18505 | valid time = 161.18 (s) ]
+03/21/2022 07:35:09 AM: [ train: Epoch 151 | perplexity = 1.81 | ml_loss = 6.83 | Time for epoch = 100.54 (s) ]
+03/21/2022 07:37:51 AM: [ dev valid official: Epoch = 151 | bleu = 27.91 | rouge_l = 42.92 | Precision = 46.80 | Recall = 46.14 | F1 = 44.46 | examples = 18505 | valid time = 160.53 (s) ]
+03/21/2022 07:39:24 AM: [ train: Epoch 152 | perplexity = 1.80 | ml_loss = 6.77 | Time for epoch = 93.72 (s) ]
+03/21/2022 07:42:02 AM: [ dev valid official: Epoch = 152 | bleu = 27.91 | rouge_l = 42.90 | Precision = 46.69 | Recall = 46.22 | F1 = 44.46 | examples = 18505 | valid time = 157.08 (s) ]
+03/21/2022 07:43:32 AM: [ train: Epoch 153 | perplexity = 1.80 | ml_loss = 6.78 | Time for epoch = 89.40 (s) ]
+03/21/2022 07:46:07 AM: [ dev valid official: Epoch = 153 | bleu = 27.92 | rouge_l = 42.93 | Precision = 46.77 | Recall = 46.21 | F1 = 44.47 | examples = 18505 | valid time = 154.03 (s) ]
+03/21/2022 07:47:38 AM: [ train: Epoch 154 | perplexity = 1.79 | ml_loss = 6.71 | Time for epoch = 91.17 (s) ]
+03/21/2022 07:50:11 AM: [ dev valid official: Epoch = 154 | bleu = 27.86 | rouge_l = 42.84 | Precision = 46.41 | Recall = 46.39 | F1 = 44.38 | examples = 18505 | valid time = 152.18 (s) ]
+03/21/2022 07:51:40 AM: [ train: Epoch 155 | perplexity = 1.78 | ml_loss = 6.68 | Time for epoch = 88.31 (s) ]
+03/21/2022 07:54:22 AM: [ dev valid official: Epoch = 155 | bleu = 28.00 | rouge_l = 42.97 | Precision = 47.15 | Recall = 46.07 | F1 = 44.55 | examples = 18505 | valid time = 161.41 (s) ]
+03/21/2022 07:54:22 AM: [ Best valid: bleu = 28.00 (epoch 155, 269080 updates) ]
+03/21/2022 07:55:50 AM: [ train: Epoch 156 | perplexity = 1.78 | ml_loss = 6.65 | Time for epoch = 87.15 (s) ]
+03/21/2022 07:58:29 AM: [ dev valid official: Epoch = 156 | bleu = 28.01 | rouge_l = 43.00 | Precision = 46.80 | Recall = 46.39 | F1 = 44.57 | examples = 18505 | valid time = 158.10 (s) ]
+03/21/2022 07:58:29 AM: [ Best valid: bleu = 28.01 (epoch 156, 270816 updates) ]
+03/21/2022 07:59:57 AM: [ train: Epoch 157 | perplexity = 1.78 | ml_loss = 6.63 | Time for epoch = 87.48 (s) ]
+03/21/2022 08:02:33 AM: [ dev valid official: Epoch = 157 | bleu = 28.08 | rouge_l = 42.90 | Precision = 46.80 | Recall = 46.08 | F1 = 44.42 | examples = 18505 | valid time = 155.35 (s) ]
+03/21/2022 08:02:33 AM: [ Best valid: bleu = 28.08 (epoch 157, 272552 updates) ]
+03/21/2022 08:04:03 AM: [ train: Epoch 158 | perplexity = 1.77 | ml_loss = 6.57 | Time for epoch = 89.04 (s) ]
+03/21/2022 08:06:37 AM: [ dev valid official: Epoch = 158 | bleu = 28.28 | rouge_l = 43.23 | Precision = 47.02 | Recall = 46.43 | F1 = 44.74 | examples = 18505 | valid time = 153.65 (s) ]
+03/21/2022 08:06:37 AM: [ Best valid: bleu = 28.28 (epoch 158, 274288 updates) ]
+03/21/2022 08:08:10 AM: [ train: Epoch 159 | perplexity = 1.77 | ml_loss = 6.55 | Time for epoch = 92.72 (s) ]
+03/21/2022 08:10:52 AM: [ dev valid official: Epoch = 159 | bleu = 28.20 | rouge_l = 43.23 | Precision = 47.05 | Recall = 46.56 | F1 = 44.78 | examples = 18505 | valid time = 160.21 (s) ]
+03/21/2022 08:12:27 AM: [ train: Epoch 160 | perplexity = 1.76 | ml_loss = 6.50 | Time for epoch = 95.21 (s) ]
+03/21/2022 08:15:05 AM: [ dev valid official: Epoch = 160 | bleu = 28.15 | rouge_l = 43.07 | Precision = 47.16 | Recall = 46.25 | F1 = 44.65 | examples = 18505 | valid time = 157.54 (s) ]
+03/21/2022 08:16:38 AM: [ train: Epoch 161 | perplexity = 1.75 | ml_loss = 6.45 | Time for epoch = 92.48 (s) ]
+03/21/2022 08:19:13 AM: [ dev valid official: Epoch = 161 | bleu = 27.96 | rouge_l = 42.89 | Precision = 46.61 | Recall = 46.31 | F1 = 44.42 | examples = 18505 | valid time = 154.22 (s) ]
+03/21/2022 08:20:43 AM: [ train: Epoch 162 | perplexity = 1.75 | ml_loss = 6.44 | Time for epoch = 89.57 (s) ]
+03/21/2022 08:23:17 AM: [ dev valid official: Epoch = 162 | bleu = 28.27 | rouge_l = 43.27 | Precision = 47.43 | Recall = 46.29 | F1 = 44.83 | examples = 18505 | valid time = 153.43 (s) ]
+03/21/2022 08:24:46 AM: [ train: Epoch 163 | perplexity = 1.74 | ml_loss = 6.40 | Time for epoch = 89.14 (s) ]
+03/21/2022 08:27:19 AM: [ dev valid official: Epoch = 163 | bleu = 28.29 | rouge_l = 43.26 | Precision = 47.40 | Recall = 46.29 | F1 = 44.84 | examples = 18505 | valid time = 151.62 (s) ]
+03/21/2022 08:27:19 AM: [ Best valid: bleu = 28.29 (epoch 163, 282968 updates) ]
+03/21/2022 08:28:44 AM: [ train: Epoch 164 | perplexity = 1.73 | ml_loss = 6.36 | Time for epoch = 84.81 (s) ]
+03/21/2022 08:31:30 AM: [ dev valid official: Epoch = 164 | bleu = 28.19 | rouge_l = 43.19 | Precision = 47.12 | Recall = 46.39 | F1 = 44.74 | examples = 18505 | valid time = 164.87 (s) ]
+03/21/2022 08:33:14 AM: [ train: Epoch 165 | perplexity = 1.74 | ml_loss = 6.33 | Time for epoch = 104.57 (s) ]
+03/21/2022 08:36:40 AM: [ dev valid official: Epoch = 165 | bleu = 28.14 | rouge_l = 43.13 | Precision = 47.03 | Recall = 46.35 | F1 = 44.67 | examples = 18505 | valid time = 203.97 (s) ]
+03/21/2022 08:38:26 AM: [ train: Epoch 166 | perplexity = 1.72 | ml_loss = 6.29 | Time for epoch = 106.01 (s) ]
+03/21/2022 08:41:47 AM: [ dev valid official: Epoch = 166 | bleu = 28.20 | rouge_l = 43.10 | Precision = 46.91 | Recall = 46.31 | F1 = 44.61 | examples = 18505 | valid time = 200.58 (s) ]
+03/21/2022 08:43:30 AM: [ train: Epoch 167 | perplexity = 1.72 | ml_loss = 6.25 | Time for epoch = 102.08 (s) ]
+03/21/2022 08:46:49 AM: [ dev valid official: Epoch = 167 | bleu = 28.20 | rouge_l = 43.20 | Precision = 46.91 | Recall = 46.50 | F1 = 44.69 | examples = 18505 | valid time = 198.03 (s) ]
+03/21/2022 08:48:42 AM: [ train: Epoch 168 | perplexity = 1.72 | ml_loss = 6.22 | Time for epoch = 113.51 (s) ]
+03/21/2022 08:52:12 AM: [ dev valid official: Epoch = 168 | bleu = 28.36 | rouge_l = 43.39 | Precision = 47.46 | Recall = 46.45 | F1 = 44.94 | examples = 18505 | valid time = 208.62 (s) ]
+03/21/2022 08:52:12 AM: [ Best valid: bleu = 28.36 (epoch 168, 291648 updates) ]
+03/21/2022 08:54:01 AM: [ train: Epoch 169 | perplexity = 1.71 | ml_loss = 6.19 | Time for epoch = 108.41 (s) ]
+03/21/2022 08:57:19 AM: [ dev valid official: Epoch = 169 | bleu = 28.38 | rouge_l = 43.29 | Precision = 47.31 | Recall = 46.24 | F1 = 44.80 | examples = 18505 | valid time = 196.65 (s) ]
+03/21/2022 08:57:19 AM: [ Best valid: bleu = 28.38 (epoch 169, 293384 updates) ]
+03/21/2022 08:59:06 AM: [ train: Epoch 170 | perplexity = 1.71 | ml_loss = 6.15 | Time for epoch = 106.49 (s) ]
+03/21/2022 09:01:55 AM: [ dev valid official: Epoch = 170 | bleu = 28.36 | rouge_l = 43.18 | Precision = 46.98 | Recall = 46.42 | F1 = 44.69 | examples = 18505 | valid time = 167.90 (s) ]
+03/21/2022 09:03:24 AM: [ train: Epoch 171 | perplexity = 1.70 | ml_loss = 6.11 | Time for epoch = 89.03 (s) ]
+03/21/2022 09:06:00 AM: [ dev valid official: Epoch = 171 | bleu = 28.28 | rouge_l = 43.08 | Precision = 46.95 | Recall = 46.28 | F1 = 44.61 | examples = 18505 | valid time = 154.72 (s) ]
+03/21/2022 09:07:27 AM: [ train: Epoch 172 | perplexity = 1.70 | ml_loss = 6.12 | Time for epoch = 87.34 (s) ]
+03/21/2022 09:10:03 AM: [ dev valid official: Epoch = 172 | bleu = 28.55 | rouge_l = 43.52 | Precision = 47.78 | Recall = 46.41 | F1 = 45.08 | examples = 18505 | valid time = 154.26 (s) ]
+03/21/2022 09:10:03 AM: [ Best valid: bleu = 28.55 (epoch 172, 298592 updates) ]
+03/21/2022 09:11:32 AM: [ train: Epoch 173 | perplexity = 1.70 | ml_loss = 6.07 | Time for epoch = 89.02 (s) ]
+03/21/2022 09:14:07 AM: [ dev valid official: Epoch = 173 | bleu = 28.32 | rouge_l = 43.33 | Precision = 47.01 | Recall = 46.73 | F1 = 44.86 | examples = 18505 | valid time = 154.15 (s) ]
+03/21/2022 09:15:36 AM: [ train: Epoch 174 | perplexity = 1.69 | ml_loss = 6.07 | Time for epoch = 89.11 (s) ]
+03/21/2022 09:18:34 AM: [ dev valid official: Epoch = 174 | bleu = 28.38 | rouge_l = 43.28 | Precision = 47.29 | Recall = 46.41 | F1 = 44.84 | examples = 18505 | valid time = 176.96 (s) ]
+03/21/2022 09:20:20 AM: [ train: Epoch 175 | perplexity = 1.69 | ml_loss = 6.02 | Time for epoch = 105.82 (s) ]
+03/21/2022 09:23:31 AM: [ dev valid official: Epoch = 175 | bleu = 28.42 | rouge_l = 43.35 | Precision = 47.15 | Recall = 46.67 | F1 = 44.90 | examples = 18505 | valid time = 190.25 (s) ]
+03/21/2022 09:25:16 AM: [ train: Epoch 176 | perplexity = 1.69 | ml_loss = 6.01 | Time for epoch = 105.10 (s) ]
+03/21/2022 09:28:19 AM: [ dev valid official: Epoch = 176 | bleu = 28.45 | rouge_l = 43.33 | Precision = 47.09 | Recall = 46.62 | F1 = 44.87 | examples = 18505 | valid time = 181.39 (s) ]
+03/21/2022 09:29:49 AM: [ train: Epoch 177 | perplexity = 1.67 | ml_loss = 5.97 | Time for epoch = 90.16 (s) ]
+03/21/2022 09:32:29 AM: [ dev valid official: Epoch = 177 | bleu = 28.39 | rouge_l = 43.32 | Precision = 47.20 | Recall = 46.56 | F1 = 44.87 | examples = 18505 | valid time = 158.97 (s) ]
+03/21/2022 09:33:59 AM: [ train: Epoch 178 | perplexity = 1.67 | ml_loss = 5.96 | Time for epoch = 89.52 (s) ]
+03/21/2022 09:36:28 AM: [ dev valid official: Epoch = 178 | bleu = 28.35 | rouge_l = 43.21 | Precision = 46.97 | Recall = 46.52 | F1 = 44.76 | examples = 18505 | valid time = 148.57 (s) ]
+03/21/2022 09:37:55 AM: [ train: Epoch 179 | perplexity = 1.67 | ml_loss = 5.91 | Time for epoch = 87.34 (s) ]
+03/21/2022 09:40:31 AM: [ dev valid official: Epoch = 179 | bleu = 28.37 | rouge_l = 43.20 | Precision = 47.12 | Recall = 46.26 | F1 = 44.72 | examples = 18505 | valid time = 154.44 (s) ]
+03/21/2022 09:42:04 AM: [ train: Epoch 180 | perplexity = 1.66 | ml_loss = 5.89 | Time for epoch = 93.44 (s) ]
+03/21/2022 09:44:42 AM: [ dev valid official: Epoch = 180 | bleu = 28.55 | rouge_l = 43.47 | Precision = 47.50 | Recall = 46.46 | F1 = 45.00 | examples = 18505 | valid time = 157.08 (s) ]
+03/21/2022 09:44:42 AM: [ Best valid: bleu = 28.55 (epoch 180, 312480 updates) ]
+03/21/2022 09:46:09 AM: [ train: Epoch 181 | perplexity = 1.67 | ml_loss = 5.85 | Time for epoch = 85.68 (s) ]
+03/21/2022 09:48:46 AM: [ dev valid official: Epoch = 181 | bleu = 28.35 | rouge_l = 43.32 | Precision = 47.04 | Recall = 46.66 | F1 = 44.84 | examples = 18505 | valid time = 156.38 (s) ]
+03/21/2022 09:50:13 AM: [ train: Epoch 182 | perplexity = 1.65 | ml_loss = 5.80 | Time for epoch = 86.66 (s) ]
+03/21/2022 09:52:45 AM: [ dev valid official: Epoch = 182 | bleu = 28.50 | rouge_l = 43.47 | Precision = 47.63 | Recall = 46.40 | F1 = 45.02 | examples = 18505 | valid time = 151.49 (s) ]
+03/21/2022 09:54:13 AM: [ train: Epoch 183 | perplexity = 1.65 | ml_loss = 5.83 | Time for epoch = 87.89 (s) ]
+03/21/2022 09:56:46 AM: [ dev valid official: Epoch = 183 | bleu = 28.46 | rouge_l = 43.36 | Precision = 47.17 | Recall = 46.57 | F1 = 44.87 | examples = 18505 | valid time = 152.09 (s) ]
+03/21/2022 09:58:19 AM: [ train: Epoch 184 | perplexity = 1.65 | ml_loss = 5.76 | Time for epoch = 92.59 (s) ]
+03/21/2022 10:00:55 AM: [ dev valid official: Epoch = 184 | bleu = 28.58 | rouge_l = 43.53 | Precision = 47.91 | Recall = 46.39 | F1 = 45.12 | examples = 18505 | valid time = 155.69 (s) ]
+03/21/2022 10:00:55 AM: [ Best valid: bleu = 28.58 (epoch 184, 319424 updates) ]
+03/21/2022 10:02:23 AM: [ train: Epoch 185 | perplexity = 1.65 | ml_loss = 5.75 | Time for epoch = 86.89 (s) ]
+03/21/2022 10:04:53 AM: [ dev valid official: Epoch = 185 | bleu = 28.56 | rouge_l = 43.42 | Precision = 47.42 | Recall = 46.49 | F1 = 44.98 | examples = 18505 | valid time = 149.70 (s) ]
+03/21/2022 10:06:19 AM: [ train: Epoch 186 | perplexity = 1.64 | ml_loss = 5.72 | Time for epoch = 85.34 (s) ]
+03/21/2022 10:08:49 AM: [ dev valid official: Epoch = 186 | bleu = 28.59 | rouge_l = 43.51 | Precision = 47.52 | Recall = 46.60 | F1 = 45.06 | examples = 18505 | valid time = 149.65 (s) ]
+03/21/2022 10:08:49 AM: [ Best valid: bleu = 28.59 (epoch 186, 322896 updates) ]
+03/21/2022 10:10:15 AM: [ train: Epoch 187 | perplexity = 1.64 | ml_loss = 5.71 | Time for epoch = 85.27 (s) ]
+03/21/2022 10:12:47 AM: [ dev valid official: Epoch = 187 | bleu = 28.40 | rouge_l = 43.38 | Precision = 46.88 | Recall = 46.83 | F1 = 44.85 | examples = 18505 | valid time = 150.76 (s) ]
+03/21/2022 10:14:12 AM: [ train: Epoch 188 | perplexity = 1.63 | ml_loss = 5.67 | Time for epoch = 85.77 (s) ]
+03/21/2022 10:16:44 AM: [ dev valid official: Epoch = 188 | bleu = 28.52 | rouge_l = 43.45 | Precision = 47.29 | Recall = 46.66 | F1 = 44.96 | examples = 18505 | valid time = 150.92 (s) ]
+03/21/2022 10:18:16 AM: [ train: Epoch 189 | perplexity = 1.63 | ml_loss = 5.65 | Time for epoch = 91.36 (s) ]
+03/21/2022 10:20:51 AM: [ dev valid official: Epoch = 189 | bleu = 28.49 | rouge_l = 43.40 | Precision = 47.04 | Recall = 46.71 | F1 = 44.89 | examples = 18505 | valid time = 154.70 (s) ]
+03/21/2022 10:22:19 AM: [ train: Epoch 190 | perplexity = 1.63 | ml_loss = 5.63 | Time for epoch = 87.91 (s) ]
+03/21/2022 10:24:52 AM: [ dev valid official: Epoch = 190 | bleu = 28.57 | rouge_l = 43.53 | Precision = 47.46 | Recall = 46.66 | F1 = 45.06 | examples = 18505 | valid time = 152.00 (s) ]
+03/21/2022 10:26:18 AM: [ train: Epoch 191 | perplexity = 1.62 | ml_loss = 5.59 | Time for epoch = 85.86 (s) ]
+03/21/2022 10:28:49 AM: [ dev valid official: Epoch = 191 | bleu = 28.49 | rouge_l = 43.41 | Precision = 47.25 | Recall = 46.62 | F1 = 44.92 | examples = 18505 | valid time = 150.04 (s) ]
+03/21/2022 10:30:12 AM: [ train: Epoch 192 | perplexity = 1.62 | ml_loss = 5.57 | Time for epoch = 83.23 (s) ]
+03/21/2022 10:32:46 AM: [ dev valid official: Epoch = 192 | bleu = 28.61 | rouge_l = 43.51 | Precision = 47.36 | Recall = 46.73 | F1 = 45.05 | examples = 18505 | valid time = 152.91 (s) ]
+03/21/2022 10:32:46 AM: [ Best valid: bleu = 28.61 (epoch 192, 333312 updates) ]
+03/21/2022 10:34:14 AM: [ train: Epoch 193 | perplexity = 1.62 | ml_loss = 5.54 | Time for epoch = 86.95 (s) ]
+03/21/2022 10:36:46 AM: [ dev valid official: Epoch = 193 | bleu = 28.60 | rouge_l = 43.41 | Precision = 47.39 | Recall = 46.52 | F1 = 44.96 | examples = 18505 | valid time = 151.46 (s) ]
+03/21/2022 10:38:13 AM: [ train: Epoch 194 | perplexity = 1.62 | ml_loss = 5.54 | Time for epoch = 86.78 (s) ]
+03/21/2022 10:40:51 AM: [ dev valid official: Epoch = 194 | bleu = 28.47 | rouge_l = 43.33 | Precision = 47.10 | Recall = 46.62 | F1 = 44.88 | examples = 18505 | valid time = 156.84 (s) ]
+03/21/2022 10:42:17 AM: [ train: Epoch 195 | perplexity = 1.61 | ml_loss = 5.52 | Time for epoch = 86.45 (s) ]
+03/21/2022 10:44:49 AM: [ dev valid official: Epoch = 195 | bleu = 28.48 | rouge_l = 43.44 | Precision = 47.13 | Recall = 46.73 | F1 = 44.96 | examples = 18505 | valid time = 151.43 (s) ]
+03/21/2022 10:46:29 AM: [ train: Epoch 196 | perplexity = 1.61 | ml_loss = 5.49 | Time for epoch = 100.13 (s) ]
+03/21/2022 10:49:10 AM: [ dev valid official: Epoch = 196 | bleu = 28.53 | rouge_l = 43.38 | Precision = 46.93 | Recall = 46.78 | F1 = 44.87 | examples = 18505 | valid time = 159.06 (s) ]
+03/21/2022 10:50:38 AM: [ train: Epoch 197 | perplexity = 1.61 | ml_loss = 5.47 | Time for epoch = 88.01 (s) ]
+03/21/2022 10:53:13 AM: [ dev valid official: Epoch = 197 | bleu = 28.67 | rouge_l = 43.62 | Precision = 47.61 | Recall = 46.71 | F1 = 45.15 | examples = 18505 | valid time = 154.28 (s) ]
+03/21/2022 10:53:13 AM: [ Best valid: bleu = 28.67 (epoch 197, 341992 updates) ]
+03/21/2022 10:54:43 AM: [ train: Epoch 198 | perplexity = 1.60 | ml_loss = 5.42 | Time for epoch = 89.39 (s) ]
+03/21/2022 10:57:19 AM: [ dev valid official: Epoch = 198 | bleu = 28.64 | rouge_l = 43.44 | Precision = 47.22 | Recall = 46.68 | F1 = 44.94 | examples = 18505 | valid time = 154.91 (s) ]
+03/21/2022 10:58:48 AM: [ train: Epoch 199 | perplexity = 1.60 | ml_loss = 5.44 | Time for epoch = 89.42 (s) ]
+03/21/2022 11:01:23 AM: [ dev valid official: Epoch = 199 | bleu = 28.63 | rouge_l = 43.53 | Precision = 47.27 | Recall = 46.82 | F1 = 45.02 | examples = 18505 | valid time = 153.51 (s) ]
+03/21/2022 11:02:52 AM: [ train: Epoch 200 | perplexity = 1.60 | ml_loss = 5.41 | Time for epoch = 89.40 (s) ]
+03/21/2022 11:05:43 AM: [ dev valid official: Epoch = 200 | bleu = 28.80 | rouge_l = 43.67 | Precision = 47.65 | Recall = 46.74 | F1 = 45.22 | examples = 18505 | valid time = 170.50 (s) ]
+03/21/2022 11:05:43 AM: [ Best valid: bleu = 28.80 (epoch 200, 347200 updates) ]

@@ -1,0 +1,536 @@
+04/09/2022 10:13:02 PM: [ COMMAND: ../../main/train.py --data_workers 5 --dataset_name go --data_dir ../../data/ --model_dir ../../tmp --model_name full_go_2 --train_src train/code.original_subtoken --train_tgt train/javadoc.original --dev_src dev/code.original_subtoken --dev_tgt dev/javadoc.original --uncase True --use_src_word True --use_src_char False --use_tgt_word True --use_tgt_char False --max_src_len 150 --max_tgt_len 50 --emsize 512 --fix_embeddings False --src_vocab_size 50000 --tgt_vocab_size 30000 --share_decoder_embeddings True --max_examples -1 --batch_size 32 --test_batch_size 64 --num_epochs 200 --model_type transformer --num_head 8 --d_k 64 --d_v 64 --d_ff 2048 --src_pos_emb False --tgt_pos_emb True --max_relative_pos 32 --use_neg_dist True --nlayers 6 --trans_drop 0.2 --dropout_emb 0.2 --dropout 0.2 --copy_attn True --early_stop 20 --warmup_steps 2000 --optimizer adam --learning_rate 0.00005 --lr_decay 0.99 --valid_metric bleu --checkpoint True --split_decoder False ]
+04/09/2022 10:13:02 PM: [ ---------------------------------------------------------------------------------------------------- ]
+04/09/2022 10:13:02 PM: [ Load and process data files ]
+04/09/2022 10:13:06 PM: [ Num train examples = 69530 ]
+04/09/2022 10:13:06 PM: [ Dataset weights = {3: 1.0} ]
+04/09/2022 10:13:06 PM: [ Num dev examples = 8714 ]
+04/09/2022 10:13:06 PM: [ ---------------------------------------------------------------------------------------------------- ]
+04/09/2022 10:13:06 PM: [ Training model from scratch... ]
+04/09/2022 10:13:06 PM: [ ---------------------------------------------------------------------------------------------------- ]
+04/09/2022 10:13:06 PM: [ Build word dictionary ]
+04/09/2022 10:13:08 PM: [ Num words in source = 32525 and target = 16991 ]
+04/09/2022 10:13:09 PM: [ Trainable #parameters [encoder-decoder] 44.2M [total] 70.4M ]
+04/09/2022 10:13:09 PM: [ Breakdown of the trainable paramters
++------------------------------------------------------------------------------+--------------+----------+
+| Layer Name                                                                   | Output Shape |  Param # |
++------------------------------------------------------------------------------+--------------+----------+
+| embedder.src_word_embeddings.make_embedding.emb_luts.0.weight                | [32525, 512] | 16652800 |
+| embedder.tgt_word_embeddings.make_embedding.emb_luts.0.weight                | [16991, 512] |  8699392 |
+| embedder.tgt_pos_embeddings.weight                                           |    [52, 512] |    26624 |
+| encoder.transformer.layer.0.attention.key.weight                             |   [512, 512] |   262144 |
+| encoder.transformer.layer.0.attention.key.bias                               |        [512] |      512 |
+| encoder.transformer.layer.0.attention.query.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.0.attention.query.bias                             |        [512] |      512 |
+| encoder.transformer.layer.0.attention.value.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.0.attention.value.bias                             |        [512] |      512 |
+| encoder.transformer.layer.0.attention.output.weight                          |   [512, 512] |   262144 |
+| encoder.transformer.layer.0.attention.output.bias                            |        [512] |      512 |
+| encoder.transformer.layer.0.attention.relative_positions_embeddings_k.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.0.attention.relative_positions_embeddings_v.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.0.layer_norm.weight                                |        [512] |      512 |
+| encoder.transformer.layer.0.layer_norm.bias                                  |        [512] |      512 |
+| encoder.transformer.layer.0.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| encoder.transformer.layer.0.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| encoder.transformer.layer.0.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| encoder.transformer.layer.0.feed_forward.output.bias                         |        [512] |      512 |
+| encoder.transformer.layer.0.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| encoder.transformer.layer.0.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| encoder.transformer.layer.1.attention.key.weight                             |   [512, 512] |   262144 |
+| encoder.transformer.layer.1.attention.key.bias                               |        [512] |      512 |
+| encoder.transformer.layer.1.attention.query.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.1.attention.query.bias                             |        [512] |      512 |
+| encoder.transformer.layer.1.attention.value.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.1.attention.value.bias                             |        [512] |      512 |
+| encoder.transformer.layer.1.attention.output.weight                          |   [512, 512] |   262144 |
+| encoder.transformer.layer.1.attention.output.bias                            |        [512] |      512 |
+| encoder.transformer.layer.1.attention.relative_positions_embeddings_k.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.1.attention.relative_positions_embeddings_v.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.1.layer_norm.weight                                |        [512] |      512 |
+| encoder.transformer.layer.1.layer_norm.bias                                  |        [512] |      512 |
+| encoder.transformer.layer.1.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| encoder.transformer.layer.1.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| encoder.transformer.layer.1.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| encoder.transformer.layer.1.feed_forward.output.bias                         |        [512] |      512 |
+| encoder.transformer.layer.1.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| encoder.transformer.layer.1.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| encoder.transformer.layer.2.attention.key.weight                             |   [512, 512] |   262144 |
+| encoder.transformer.layer.2.attention.key.bias                               |        [512] |      512 |
+| encoder.transformer.layer.2.attention.query.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.2.attention.query.bias                             |        [512] |      512 |
+| encoder.transformer.layer.2.attention.value.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.2.attention.value.bias                             |        [512] |      512 |
+| encoder.transformer.layer.2.attention.output.weight                          |   [512, 512] |   262144 |
+| encoder.transformer.layer.2.attention.output.bias                            |        [512] |      512 |
+| encoder.transformer.layer.2.attention.relative_positions_embeddings_k.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.2.attention.relative_positions_embeddings_v.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.2.layer_norm.weight                                |        [512] |      512 |
+| encoder.transformer.layer.2.layer_norm.bias                                  |        [512] |      512 |
+| encoder.transformer.layer.2.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| encoder.transformer.layer.2.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| encoder.transformer.layer.2.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| encoder.transformer.layer.2.feed_forward.output.bias                         |        [512] |      512 |
+| encoder.transformer.layer.2.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| encoder.transformer.layer.2.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| encoder.transformer.layer.3.attention.key.weight                             |   [512, 512] |   262144 |
+| encoder.transformer.layer.3.attention.key.bias                               |        [512] |      512 |
+| encoder.transformer.layer.3.attention.query.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.3.attention.query.bias                             |        [512] |      512 |
+| encoder.transformer.layer.3.attention.value.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.3.attention.value.bias                             |        [512] |      512 |
+| encoder.transformer.layer.3.attention.output.weight                          |   [512, 512] |   262144 |
+| encoder.transformer.layer.3.attention.output.bias                            |        [512] |      512 |
+| encoder.transformer.layer.3.attention.relative_positions_embeddings_k.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.3.attention.relative_positions_embeddings_v.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.3.layer_norm.weight                                |        [512] |      512 |
+| encoder.transformer.layer.3.layer_norm.bias                                  |        [512] |      512 |
+| encoder.transformer.layer.3.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| encoder.transformer.layer.3.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| encoder.transformer.layer.3.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| encoder.transformer.layer.3.feed_forward.output.bias                         |        [512] |      512 |
+| encoder.transformer.layer.3.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| encoder.transformer.layer.3.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| encoder.transformer.layer.4.attention.key.weight                             |   [512, 512] |   262144 |
+| encoder.transformer.layer.4.attention.key.bias                               |        [512] |      512 |
+| encoder.transformer.layer.4.attention.query.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.4.attention.query.bias                             |        [512] |      512 |
+| encoder.transformer.layer.4.attention.value.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.4.attention.value.bias                             |        [512] |      512 |
+| encoder.transformer.layer.4.attention.output.weight                          |   [512, 512] |   262144 |
+| encoder.transformer.layer.4.attention.output.bias                            |        [512] |      512 |
+| encoder.transformer.layer.4.attention.relative_positions_embeddings_k.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.4.attention.relative_positions_embeddings_v.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.4.layer_norm.weight                                |        [512] |      512 |
+| encoder.transformer.layer.4.layer_norm.bias                                  |        [512] |      512 |
+| encoder.transformer.layer.4.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| encoder.transformer.layer.4.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| encoder.transformer.layer.4.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| encoder.transformer.layer.4.feed_forward.output.bias                         |        [512] |      512 |
+| encoder.transformer.layer.4.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| encoder.transformer.layer.4.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| encoder.transformer.layer.5.attention.key.weight                             |   [512, 512] |   262144 |
+| encoder.transformer.layer.5.attention.key.bias                               |        [512] |      512 |
+| encoder.transformer.layer.5.attention.query.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.5.attention.query.bias                             |        [512] |      512 |
+| encoder.transformer.layer.5.attention.value.weight                           |   [512, 512] |   262144 |
+| encoder.transformer.layer.5.attention.value.bias                             |        [512] |      512 |
+| encoder.transformer.layer.5.attention.output.weight                          |   [512, 512] |   262144 |
+| encoder.transformer.layer.5.attention.output.bias                            |        [512] |      512 |
+| encoder.transformer.layer.5.attention.relative_positions_embeddings_k.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.5.attention.relative_positions_embeddings_v.weight |     [65, 64] |     4160 |
+| encoder.transformer.layer.5.layer_norm.weight                                |        [512] |      512 |
+| encoder.transformer.layer.5.layer_norm.bias                                  |        [512] |      512 |
+| encoder.transformer.layer.5.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| encoder.transformer.layer.5.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| encoder.transformer.layer.5.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| encoder.transformer.layer.5.feed_forward.output.bias                         |        [512] |      512 |
+| encoder.transformer.layer.5.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| encoder.transformer.layer.5.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| decoder.transformer.layer.0.attention.key.weight                             |   [512, 512] |   262144 |
+| decoder.transformer.layer.0.attention.key.bias                               |        [512] |      512 |
+| decoder.transformer.layer.0.attention.query.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.0.attention.query.bias                             |        [512] |      512 |
+| decoder.transformer.layer.0.attention.value.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.0.attention.value.bias                             |        [512] |      512 |
+| decoder.transformer.layer.0.attention.output.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.0.attention.output.bias                            |        [512] |      512 |
+| decoder.transformer.layer.0.layer_norm.weight                                |        [512] |      512 |
+| decoder.transformer.layer.0.layer_norm.bias                                  |        [512] |      512 |
+| decoder.transformer.layer.0.context_attn.key.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.0.context_attn.key.bias                            |        [512] |      512 |
+| decoder.transformer.layer.0.context_attn.query.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.0.context_attn.query.bias                          |        [512] |      512 |
+| decoder.transformer.layer.0.context_attn.value.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.0.context_attn.value.bias                          |        [512] |      512 |
+| decoder.transformer.layer.0.context_attn.output.weight                       |   [512, 512] |   262144 |
+| decoder.transformer.layer.0.context_attn.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.0.layer_norm_2.weight                              |        [512] |      512 |
+| decoder.transformer.layer.0.layer_norm_2.bias                                |        [512] |      512 |
+| decoder.transformer.layer.0.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| decoder.transformer.layer.0.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| decoder.transformer.layer.0.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| decoder.transformer.layer.0.feed_forward.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.0.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| decoder.transformer.layer.0.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| decoder.transformer.layer.1.attention.key.weight                             |   [512, 512] |   262144 |
+| decoder.transformer.layer.1.attention.key.bias                               |        [512] |      512 |
+| decoder.transformer.layer.1.attention.query.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.1.attention.query.bias                             |        [512] |      512 |
+| decoder.transformer.layer.1.attention.value.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.1.attention.value.bias                             |        [512] |      512 |
+| decoder.transformer.layer.1.attention.output.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.1.attention.output.bias                            |        [512] |      512 |
+| decoder.transformer.layer.1.layer_norm.weight                                |        [512] |      512 |
+| decoder.transformer.layer.1.layer_norm.bias                                  |        [512] |      512 |
+| decoder.transformer.layer.1.context_attn.key.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.1.context_attn.key.bias                            |        [512] |      512 |
+| decoder.transformer.layer.1.context_attn.query.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.1.context_attn.query.bias                          |        [512] |      512 |
+| decoder.transformer.layer.1.context_attn.value.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.1.context_attn.value.bias                          |        [512] |      512 |
+| decoder.transformer.layer.1.context_attn.output.weight                       |   [512, 512] |   262144 |
+| decoder.transformer.layer.1.context_attn.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.1.layer_norm_2.weight                              |        [512] |      512 |
+| decoder.transformer.layer.1.layer_norm_2.bias                                |        [512] |      512 |
+| decoder.transformer.layer.1.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| decoder.transformer.layer.1.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| decoder.transformer.layer.1.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| decoder.transformer.layer.1.feed_forward.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.1.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| decoder.transformer.layer.1.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| decoder.transformer.layer.2.attention.key.weight                             |   [512, 512] |   262144 |
+| decoder.transformer.layer.2.attention.key.bias                               |        [512] |      512 |
+| decoder.transformer.layer.2.attention.query.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.2.attention.query.bias                             |        [512] |      512 |
+| decoder.transformer.layer.2.attention.value.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.2.attention.value.bias                             |        [512] |      512 |
+| decoder.transformer.layer.2.attention.output.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.2.attention.output.bias                            |        [512] |      512 |
+| decoder.transformer.layer.2.layer_norm.weight                                |        [512] |      512 |
+| decoder.transformer.layer.2.layer_norm.bias                                  |        [512] |      512 |
+| decoder.transformer.layer.2.context_attn.key.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.2.context_attn.key.bias                            |        [512] |      512 |
+| decoder.transformer.layer.2.context_attn.query.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.2.context_attn.query.bias                          |        [512] |      512 |
+| decoder.transformer.layer.2.context_attn.value.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.2.context_attn.value.bias                          |        [512] |      512 |
+| decoder.transformer.layer.2.context_attn.output.weight                       |   [512, 512] |   262144 |
+| decoder.transformer.layer.2.context_attn.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.2.layer_norm_2.weight                              |        [512] |      512 |
+| decoder.transformer.layer.2.layer_norm_2.bias                                |        [512] |      512 |
+| decoder.transformer.layer.2.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| decoder.transformer.layer.2.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| decoder.transformer.layer.2.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| decoder.transformer.layer.2.feed_forward.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.2.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| decoder.transformer.layer.2.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| decoder.transformer.layer.3.attention.key.weight                             |   [512, 512] |   262144 |
+| decoder.transformer.layer.3.attention.key.bias                               |        [512] |      512 |
+| decoder.transformer.layer.3.attention.query.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.3.attention.query.bias                             |        [512] |      512 |
+| decoder.transformer.layer.3.attention.value.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.3.attention.value.bias                             |        [512] |      512 |
+| decoder.transformer.layer.3.attention.output.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.3.attention.output.bias                            |        [512] |      512 |
+| decoder.transformer.layer.3.layer_norm.weight                                |        [512] |      512 |
+| decoder.transformer.layer.3.layer_norm.bias                                  |        [512] |      512 |
+| decoder.transformer.layer.3.context_attn.key.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.3.context_attn.key.bias                            |        [512] |      512 |
+| decoder.transformer.layer.3.context_attn.query.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.3.context_attn.query.bias                          |        [512] |      512 |
+| decoder.transformer.layer.3.context_attn.value.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.3.context_attn.value.bias                          |        [512] |      512 |
+| decoder.transformer.layer.3.context_attn.output.weight                       |   [512, 512] |   262144 |
+| decoder.transformer.layer.3.context_attn.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.3.layer_norm_2.weight                              |        [512] |      512 |
+| decoder.transformer.layer.3.layer_norm_2.bias                                |        [512] |      512 |
+| decoder.transformer.layer.3.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| decoder.transformer.layer.3.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| decoder.transformer.layer.3.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| decoder.transformer.layer.3.feed_forward.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.3.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| decoder.transformer.layer.3.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| decoder.transformer.layer.4.attention.key.weight                             |   [512, 512] |   262144 |
+| decoder.transformer.layer.4.attention.key.bias                               |        [512] |      512 |
+| decoder.transformer.layer.4.attention.query.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.4.attention.query.bias                             |        [512] |      512 |
+| decoder.transformer.layer.4.attention.value.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.4.attention.value.bias                             |        [512] |      512 |
+| decoder.transformer.layer.4.attention.output.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.4.attention.output.bias                            |        [512] |      512 |
+| decoder.transformer.layer.4.layer_norm.weight                                |        [512] |      512 |
+| decoder.transformer.layer.4.layer_norm.bias                                  |        [512] |      512 |
+| decoder.transformer.layer.4.context_attn.key.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.4.context_attn.key.bias                            |        [512] |      512 |
+| decoder.transformer.layer.4.context_attn.query.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.4.context_attn.query.bias                          |        [512] |      512 |
+| decoder.transformer.layer.4.context_attn.value.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.4.context_attn.value.bias                          |        [512] |      512 |
+| decoder.transformer.layer.4.context_attn.output.weight                       |   [512, 512] |   262144 |
+| decoder.transformer.layer.4.context_attn.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.4.layer_norm_2.weight                              |        [512] |      512 |
+| decoder.transformer.layer.4.layer_norm_2.bias                                |        [512] |      512 |
+| decoder.transformer.layer.4.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| decoder.transformer.layer.4.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| decoder.transformer.layer.4.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| decoder.transformer.layer.4.feed_forward.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.4.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| decoder.transformer.layer.4.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| decoder.transformer.layer.5.attention.key.weight                             |   [512, 512] |   262144 |
+| decoder.transformer.layer.5.attention.key.bias                               |        [512] |      512 |
+| decoder.transformer.layer.5.attention.query.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.5.attention.query.bias                             |        [512] |      512 |
+| decoder.transformer.layer.5.attention.value.weight                           |   [512, 512] |   262144 |
+| decoder.transformer.layer.5.attention.value.bias                             |        [512] |      512 |
+| decoder.transformer.layer.5.attention.output.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.5.attention.output.bias                            |        [512] |      512 |
+| decoder.transformer.layer.5.layer_norm.weight                                |        [512] |      512 |
+| decoder.transformer.layer.5.layer_norm.bias                                  |        [512] |      512 |
+| decoder.transformer.layer.5.context_attn.key.weight                          |   [512, 512] |   262144 |
+| decoder.transformer.layer.5.context_attn.key.bias                            |        [512] |      512 |
+| decoder.transformer.layer.5.context_attn.query.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.5.context_attn.query.bias                          |        [512] |      512 |
+| decoder.transformer.layer.5.context_attn.value.weight                        |   [512, 512] |   262144 |
+| decoder.transformer.layer.5.context_attn.value.bias                          |        [512] |      512 |
+| decoder.transformer.layer.5.context_attn.output.weight                       |   [512, 512] |   262144 |
+| decoder.transformer.layer.5.context_attn.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.5.layer_norm_2.weight                              |        [512] |      512 |
+| decoder.transformer.layer.5.layer_norm_2.bias                                |        [512] |      512 |
+| decoder.transformer.layer.5.feed_forward.intermediate.weight                 |  [2048, 512] |  1048576 |
+| decoder.transformer.layer.5.feed_forward.intermediate.bias                   |       [2048] |     2048 |
+| decoder.transformer.layer.5.feed_forward.output.weight                       |  [512, 2048] |  1048576 |
+| decoder.transformer.layer.5.feed_forward.output.bias                         |        [512] |      512 |
+| decoder.transformer.layer.5.feed_forward.layer_norm.weight                   |        [512] |      512 |
+| decoder.transformer.layer.5.feed_forward.layer_norm.bias                     |        [512] |      512 |
+| generator.bias                                                               |      [16991] |    16991 |
+| copy_attn.linear_in.weight                                                   |   [512, 512] |   262144 |
+| copy_attn.linear_out.weight                                                  |  [512, 1024] |   524288 |
+| copy_generator.linear_copy.weight                                            |     [1, 512] |      512 |
+| copy_generator.linear_copy.bias                                              |          [1] |        1 |
++------------------------------------------------------------------------------+--------------+----------+ ]
+04/09/2022 10:13:11 PM: [ ---------------------------------------------------------------------------------------------------- ]
+04/09/2022 10:13:11 PM: [ Make data loaders ]
+04/09/2022 10:13:11 PM: [ ---------------------------------------------------------------------------------------------------- ]
+04/09/2022 10:13:11 PM: [ CONFIG:
+{
+    "attn_type": "general",
+    "batch_size": 32,
+    "bidirection": true,
+    "char_emsize": 16,
+    "checkpoint": true,
+    "code_tag_type": "subtoken",
+    "conditional_decoding": false,
+    "copy_attn": true,
+    "coverage_attn": false,
+    "cuda": true,
+    "d_ff": 2048,
+    "d_k": 64,
+    "d_v": 64,
+    "data_dir": "../../data/",
+    "data_workers": 5,
+    "dataset_name": [
+        "go"
+    ],
+    "dataset_weights": {
+        "3": 1.0
+    },
+    "dev_src": [
+        "dev/code.original_subtoken"
+    ],
+    "dev_src_files": [
+        "../../data/go/dev/code.original_subtoken"
+    ],
+    "dev_src_tag": null,
+    "dev_src_tag_files": [
+        null
+    ],
+    "dev_tgt": [
+        "dev/javadoc.original"
+    ],
+    "dev_tgt_files": [
+        "../../data/go/dev/javadoc.original"
+    ],
+    "display_iter": 25,
+    "dropout": 0.2,
+    "dropout_emb": 0.2,
+    "dropout_rnn": 0.2,
+    "early_stop": 20,
+    "emsize": 512,
+    "filter_size": 5,
+    "fix_embeddings": false,
+    "force_copy": false,
+    "grad_clipping": 5.0,
+    "layer_wise_attn": false,
+    "learning_rate": 5e-05,
+    "log_file": "../../tmp/full_go_2.txt",
+    "lr_decay": 0.99,
+    "max_characters_per_token": 30,
+    "max_examples": -1,
+    "max_relative_pos": [
+        32
+    ],
+    "max_src_len": 150,
+    "max_tgt_len": 50,
+    "model_dir": "../../tmp",
+    "model_file": "../../tmp/full_go_2.mdl",
+    "model_name": "full_go_2",
+    "model_type": "transformer",
+    "momentum": 0,
+    "n_characters": 260,
+    "nfilters": 100,
+    "nhid": 200,
+    "nlayers": 6,
+    "num_epochs": 200,
+    "num_head": 8,
+    "num_train_examples": 69530,
+    "only_test": false,
+    "optimizer": "adam",
+    "parallel": false,
+    "pred_file": "../../tmp/full_go_2.json",
+    "pretrained": null,
+    "print_copy_info": false,
+    "print_one_target": false,
+    "random_seed": 1013,
+    "reload_decoder_state": null,
+    "reuse_copy_attn": false,
+    "review_attn": false,
+    "rnn_type": "LSTM",
+    "share_decoder_embeddings": true,
+    "sort_by_len": true,
+    "split_decoder": false,
+    "src_pos_emb": false,
+    "src_vocab_size": 50000,
+    "test_batch_size": 64,
+    "tgt_pos_emb": true,
+    "tgt_vocab_size": 30000,
+    "train_src": [
+        "train/code.original_subtoken"
+    ],
+    "train_src_files": [
+        "../../data/go/train/code.original_subtoken"
+    ],
+    "train_src_tag": null,
+    "train_src_tag_files": [
+        null
+    ],
+    "train_tgt": [
+        "train/javadoc.original"
+    ],
+    "train_tgt_files": [
+        "../../data/go/train/javadoc.original"
+    ],
+    "trans_drop": 0.2,
+    "uncase": true,
+    "use_all_enc_layers": false,
+    "use_code_type": false,
+    "use_neg_dist": true,
+    "use_src_char": false,
+    "use_src_word": true,
+    "use_tgt_char": false,
+    "use_tgt_word": true,
+    "valid_metric": "bleu",
+    "warmup_epochs": 0,
+    "warmup_steps": 2000,
+    "weight_decay": 0
+} ]
+04/09/2022 10:13:11 PM: [ ---------------------------------------------------------------------------------------------------- ]
+04/09/2022 10:13:11 PM: [ Starting training... ]
+04/09/2022 10:18:02 PM: [ train: Epoch 1 | perplexity = 22022.92 | ml_loss = 512.45 | Time for epoch = 290.51 (s) ]
+04/09/2022 10:20:24 PM: [ dev valid official: Epoch = 1 | bleu = 3.01 | rouge_l = 4.38 | Precision = 3.19 | Recall = 7.89 | F1 = 4.18 | examples = 8714 | valid time = 141.29 (s) ]
+04/09/2022 10:20:24 PM: [ Best valid: bleu = 3.01 (epoch 1, 2173 updates) ]
+04/09/2022 10:25:10 PM: [ train: Epoch 2 | perplexity = 21734.00 | ml_loss = 306.66 | Time for epoch = 285.30 (s) ]
+04/09/2022 10:27:25 PM: [ dev valid official: Epoch = 2 | bleu = 9.50 | rouge_l = 17.95 | Precision = 31.16 | Recall = 17.15 | F1 = 20.12 | examples = 8714 | valid time = 133.28 (s) ]
+04/09/2022 10:27:25 PM: [ Best valid: bleu = 9.50 (epoch 2, 4346 updates) ]
+04/09/2022 10:32:11 PM: [ train: Epoch 3 | perplexity = 20803.47 | ml_loss = 237.69 | Time for epoch = 285.64 (s) ]
+04/09/2022 10:34:26 PM: [ dev valid official: Epoch = 3 | bleu = 8.19 | rouge_l = 16.08 | Precision = 22.50 | Recall = 19.77 | F1 = 18.03 | examples = 8714 | valid time = 133.77 (s) ]
+04/09/2022 10:39:12 PM: [ train: Epoch 4 | perplexity = 13855.97 | ml_loss = 191.53 | Time for epoch = 285.81 (s) ]
+04/09/2022 10:41:28 PM: [ dev valid official: Epoch = 4 | bleu = 7.99 | rouge_l = 15.88 | Precision = 21.73 | Recall = 19.66 | F1 = 17.29 | examples = 8714 | valid time = 134.95 (s) ]
+04/09/2022 10:46:07 PM: [ train: Epoch 5 | perplexity = 4896.46 | ml_loss = 158.65 | Time for epoch = 278.74 (s) ]
+04/09/2022 10:48:21 PM: [ dev valid official: Epoch = 5 | bleu = 9.63 | rouge_l = 20.02 | Precision = 29.96 | Recall = 21.37 | F1 = 22.01 | examples = 8714 | valid time = 132.93 (s) ]
+04/09/2022 10:48:21 PM: [ Best valid: bleu = 9.63 (epoch 5, 10865 updates) ]
+04/09/2022 10:53:02 PM: [ train: Epoch 6 | perplexity = 1202.22 | ml_loss = 127.23 | Time for epoch = 279.72 (s) ]
+04/09/2022 10:55:24 PM: [ dev valid official: Epoch = 6 | bleu = 4.56 | rouge_l = 14.01 | Precision = 10.90 | Recall = 29.20 | F1 = 14.03 | examples = 8714 | valid time = 140.32 (s) ]
+04/09/2022 11:00:17 PM: [ train: Epoch 7 | perplexity = 217.10 | ml_loss = 100.28 | Time for epoch = 293.56 (s) ]
+04/09/2022 11:02:30 PM: [ dev valid official: Epoch = 7 | bleu = 12.07 | rouge_l = 25.77 | Precision = 39.80 | Recall = 24.50 | F1 = 27.93 | examples = 8714 | valid time = 131.69 (s) ]
+04/09/2022 11:02:30 PM: [ Best valid: bleu = 12.07 (epoch 7, 15211 updates) ]
+04/09/2022 11:07:17 PM: [ train: Epoch 8 | perplexity = 112.68 | ml_loss = 88.48 | Time for epoch = 285.92 (s) ]
+04/09/2022 11:09:30 PM: [ dev valid official: Epoch = 8 | bleu = 13.67 | rouge_l = 28.39 | Precision = 41.76 | Recall = 27.49 | F1 = 30.57 | examples = 8714 | valid time = 131.47 (s) ]
+04/09/2022 11:09:30 PM: [ Best valid: bleu = 13.67 (epoch 8, 17384 updates) ]
+04/09/2022 11:14:16 PM: [ train: Epoch 9 | perplexity = 77.38 | ml_loss = 81.54 | Time for epoch = 285.30 (s) ]
+04/09/2022 11:16:29 PM: [ dev valid official: Epoch = 9 | bleu = 15.10 | rouge_l = 31.31 | Precision = 46.18 | Recall = 30.45 | F1 = 34.04 | examples = 8714 | valid time = 131.85 (s) ]
+04/09/2022 11:16:29 PM: [ Best valid: bleu = 15.10 (epoch 9, 19557 updates) ]
+04/09/2022 11:21:22 PM: [ train: Epoch 10 | perplexity = 57.03 | ml_loss = 77.16 | Time for epoch = 292.92 (s) ]
+04/09/2022 11:23:36 PM: [ dev valid official: Epoch = 10 | bleu = 15.23 | rouge_l = 30.97 | Precision = 44.11 | Recall = 30.29 | F1 = 33.19 | examples = 8714 | valid time = 131.83 (s) ]
+04/09/2022 11:23:36 PM: [ Best valid: bleu = 15.23 (epoch 10, 21730 updates) ]
+04/09/2022 11:28:29 PM: [ train: Epoch 11 | perplexity = 47.22 | ml_loss = 74.15 | Time for epoch = 292.93 (s) ]
+04/09/2022 11:30:42 PM: [ dev valid official: Epoch = 11 | bleu = 16.00 | rouge_l = 31.61 | Precision = 42.54 | Recall = 31.50 | F1 = 33.60 | examples = 8714 | valid time = 131.52 (s) ]
+04/09/2022 11:30:42 PM: [ Best valid: bleu = 16.00 (epoch 11, 23903 updates) ]
+04/09/2022 11:35:32 PM: [ train: Epoch 12 | perplexity = 42.91 | ml_loss = 71.87 | Time for epoch = 289.78 (s) ]
+04/09/2022 11:37:46 PM: [ dev valid official: Epoch = 12 | bleu = 16.51 | rouge_l = 32.95 | Precision = 45.42 | Recall = 32.46 | F1 = 35.20 | examples = 8714 | valid time = 131.91 (s) ]
+04/09/2022 11:37:46 PM: [ Best valid: bleu = 16.51 (epoch 12, 26076 updates) ]
+04/09/2022 11:42:42 PM: [ train: Epoch 13 | perplexity = 37.49 | ml_loss = 69.87 | Time for epoch = 294.96 (s) ]
+04/09/2022 11:44:55 PM: [ dev valid official: Epoch = 13 | bleu = 17.07 | rouge_l = 33.72 | Precision = 47.08 | Recall = 33.25 | F1 = 36.27 | examples = 8714 | valid time = 131.64 (s) ]
+04/09/2022 11:44:55 PM: [ Best valid: bleu = 17.07 (epoch 13, 28249 updates) ]
+04/09/2022 11:49:35 PM: [ train: Epoch 14 | perplexity = 38.36 | ml_loss = 68.26 | Time for epoch = 279.77 (s) ]
+04/09/2022 11:51:48 PM: [ dev valid official: Epoch = 14 | bleu = 17.18 | rouge_l = 34.06 | Precision = 44.89 | Recall = 34.68 | F1 = 36.37 | examples = 8714 | valid time = 131.96 (s) ]
+04/09/2022 11:51:48 PM: [ Best valid: bleu = 17.18 (epoch 14, 30422 updates) ]
+04/09/2022 11:56:27 PM: [ train: Epoch 15 | perplexity = 35.75 | ml_loss = 66.83 | Time for epoch = 278.41 (s) ]
+04/09/2022 11:58:41 PM: [ dev valid official: Epoch = 15 | bleu = 17.27 | rouge_l = 33.65 | Precision = 43.99 | Recall = 34.19 | F1 = 35.82 | examples = 8714 | valid time = 132.88 (s) ]
+04/09/2022 11:58:41 PM: [ Best valid: bleu = 17.27 (epoch 15, 32595 updates) ]
+04/10/2022 12:03:23 AM: [ train: Epoch 16 | perplexity = 32.88 | ml_loss = 65.49 | Time for epoch = 280.73 (s) ]
+04/10/2022 12:05:36 AM: [ dev valid official: Epoch = 16 | bleu = 17.76 | rouge_l = 35.10 | Precision = 48.76 | Recall = 34.26 | F1 = 37.62 | examples = 8714 | valid time = 131.89 (s) ]
+04/10/2022 12:05:36 AM: [ Best valid: bleu = 17.76 (epoch 16, 34768 updates) ]
+04/10/2022 12:10:28 AM: [ train: Epoch 17 | perplexity = 27.42 | ml_loss = 64.15 | Time for epoch = 290.81 (s) ]
+04/10/2022 12:12:41 AM: [ dev valid official: Epoch = 17 | bleu = 17.75 | rouge_l = 35.12 | Precision = 51.90 | Recall = 33.03 | F1 = 37.74 | examples = 8714 | valid time = 131.82 (s) ]
+04/10/2022 12:17:28 AM: [ train: Epoch 18 | perplexity = 27.10 | ml_loss = 62.96 | Time for epoch = 286.64 (s) ]
+04/10/2022 12:19:41 AM: [ dev valid official: Epoch = 18 | bleu = 16.94 | rouge_l = 33.63 | Precision = 40.87 | Recall = 36.68 | F1 = 35.71 | examples = 8714 | valid time = 132.15 (s) ]
+04/10/2022 12:24:33 AM: [ train: Epoch 19 | perplexity = 24.18 | ml_loss = 61.79 | Time for epoch = 291.68 (s) ]
+04/10/2022 12:26:46 AM: [ dev valid official: Epoch = 19 | bleu = 18.07 | rouge_l = 35.35 | Precision = 48.91 | Recall = 34.67 | F1 = 37.86 | examples = 8714 | valid time = 131.40 (s) ]
+04/10/2022 12:26:46 AM: [ Best valid: bleu = 18.07 (epoch 19, 41287 updates) ]
+04/10/2022 12:31:36 AM: [ train: Epoch 20 | perplexity = 23.11 | ml_loss = 60.69 | Time for epoch = 289.34 (s) ]
+04/10/2022 12:33:50 AM: [ dev valid official: Epoch = 20 | bleu = 17.82 | rouge_l = 34.59 | Precision = 44.16 | Recall = 35.98 | F1 = 36.86 | examples = 8714 | valid time = 132.26 (s) ]
+04/10/2022 12:38:36 AM: [ train: Epoch 21 | perplexity = 22.28 | ml_loss = 59.71 | Time for epoch = 286.03 (s) ]
+04/10/2022 12:40:50 AM: [ dev valid official: Epoch = 21 | bleu = 18.57 | rouge_l = 35.20 | Precision = 46.15 | Recall = 35.79 | F1 = 37.66 | examples = 8714 | valid time = 132.20 (s) ]
+04/10/2022 12:40:50 AM: [ Best valid: bleu = 18.57 (epoch 21, 45633 updates) ]
+04/10/2022 12:45:30 AM: [ train: Epoch 22 | perplexity = 22.46 | ml_loss = 58.73 | Time for epoch = 279.69 (s) ]
+04/10/2022 12:47:43 AM: [ dev valid official: Epoch = 22 | bleu = 18.53 | rouge_l = 35.51 | Precision = 48.77 | Recall = 34.94 | F1 = 38.10 | examples = 8714 | valid time = 131.48 (s) ]
+04/10/2022 12:52:34 AM: [ train: Epoch 23 | perplexity = 19.30 | ml_loss = 57.76 | Time for epoch = 290.90 (s) ]
+04/10/2022 12:54:46 AM: [ dev valid official: Epoch = 23 | bleu = 17.88 | rouge_l = 35.08 | Precision = 52.04 | Recall = 33.00 | F1 = 37.76 | examples = 8714 | valid time = 131.00 (s) ]
+04/10/2022 12:59:27 AM: [ train: Epoch 24 | perplexity = 20.19 | ml_loss = 56.92 | Time for epoch = 280.71 (s) ]
+04/10/2022 01:01:41 AM: [ dev valid official: Epoch = 24 | bleu = 18.38 | rouge_l = 35.06 | Precision = 47.40 | Recall = 34.98 | F1 = 37.61 | examples = 8714 | valid time = 132.63 (s) ]
+04/10/2022 01:06:20 AM: [ train: Epoch 25 | perplexity = 19.71 | ml_loss = 56.10 | Time for epoch = 279.29 (s) ]
+04/10/2022 01:08:33 AM: [ dev valid official: Epoch = 25 | bleu = 18.45 | rouge_l = 35.39 | Precision = 48.71 | Recall = 34.94 | F1 = 38.05 | examples = 8714 | valid time = 131.54 (s) ]
+04/10/2022 01:13:12 AM: [ train: Epoch 26 | perplexity = 18.85 | ml_loss = 55.30 | Time for epoch = 279.00 (s) ]
+04/10/2022 01:15:26 AM: [ dev valid official: Epoch = 26 | bleu = 18.67 | rouge_l = 35.81 | Precision = 49.57 | Recall = 35.06 | F1 = 38.43 | examples = 8714 | valid time = 131.85 (s) ]
+04/10/2022 01:15:26 AM: [ Best valid: bleu = 18.67 (epoch 26, 56498 updates) ]
+04/10/2022 01:20:08 AM: [ train: Epoch 27 | perplexity = 17.67 | ml_loss = 54.50 | Time for epoch = 282.19 (s) ]
+04/10/2022 01:22:21 AM: [ dev valid official: Epoch = 27 | bleu = 18.69 | rouge_l = 35.29 | Precision = 46.61 | Recall = 35.70 | F1 = 37.80 | examples = 8714 | valid time = 131.32 (s) ]
+04/10/2022 01:22:21 AM: [ Best valid: bleu = 18.69 (epoch 27, 58671 updates) ]
+04/10/2022 01:27:01 AM: [ train: Epoch 28 | perplexity = 17.14 | ml_loss = 53.73 | Time for epoch = 279.57 (s) ]
+04/10/2022 01:29:16 AM: [ dev valid official: Epoch = 28 | bleu = 18.10 | rouge_l = 34.94 | Precision = 47.97 | Recall = 34.73 | F1 = 37.64 | examples = 8714 | valid time = 132.55 (s) ]
+04/10/2022 01:34:07 AM: [ train: Epoch 29 | perplexity = 14.95 | ml_loss = 52.94 | Time for epoch = 291.03 (s) ]
+04/10/2022 01:36:20 AM: [ dev valid official: Epoch = 29 | bleu = 18.47 | rouge_l = 34.92 | Precision = 45.31 | Recall = 36.06 | F1 = 37.30 | examples = 8714 | valid time = 132.31 (s) ]
+04/10/2022 01:41:11 AM: [ train: Epoch 30 | perplexity = 14.32 | ml_loss = 52.20 | Time for epoch = 290.12 (s) ]
+04/10/2022 01:43:24 AM: [ dev valid official: Epoch = 30 | bleu = 18.45 | rouge_l = 35.08 | Precision = 46.35 | Recall = 35.48 | F1 = 37.55 | examples = 8714 | valid time = 131.95 (s) ]
+04/10/2022 01:48:16 AM: [ train: Epoch 31 | perplexity = 13.56 | ml_loss = 51.47 | Time for epoch = 292.52 (s) ]
+04/10/2022 01:50:29 AM: [ dev valid official: Epoch = 31 | bleu = 18.85 | rouge_l = 35.71 | Precision = 49.79 | Recall = 35.12 | F1 = 38.53 | examples = 8714 | valid time = 131.27 (s) ]
+04/10/2022 01:50:29 AM: [ Best valid: bleu = 18.85 (epoch 31, 67363 updates) ]
+04/10/2022 01:55:19 AM: [ train: Epoch 32 | perplexity = 13.69 | ml_loss = 50.74 | Time for epoch = 288.79 (s) ]
+04/10/2022 01:57:34 AM: [ dev valid official: Epoch = 32 | bleu = 18.35 | rouge_l = 34.49 | Precision = 44.77 | Recall = 35.70 | F1 = 36.98 | examples = 8714 | valid time = 133.76 (s) ]
+04/10/2022 02:02:15 AM: [ train: Epoch 33 | perplexity = 13.81 | ml_loss = 50.11 | Time for epoch = 280.86 (s) ]
+04/10/2022 02:04:29 AM: [ dev valid official: Epoch = 33 | bleu = 18.69 | rouge_l = 35.30 | Precision = 46.92 | Recall = 35.61 | F1 = 37.86 | examples = 8714 | valid time = 132.42 (s) ]
+04/10/2022 02:09:10 AM: [ train: Epoch 34 | perplexity = 13.80 | ml_loss = 49.44 | Time for epoch = 281.36 (s) ]
+04/10/2022 02:11:24 AM: [ dev valid official: Epoch = 34 | bleu = 18.15 | rouge_l = 34.21 | Precision = 44.42 | Recall = 35.24 | F1 = 36.66 | examples = 8714 | valid time = 132.17 (s) ]
+04/10/2022 02:16:17 AM: [ train: Epoch 35 | perplexity = 11.83 | ml_loss = 48.84 | Time for epoch = 292.92 (s) ]
+04/10/2022 02:18:32 AM: [ dev valid official: Epoch = 35 | bleu = 18.47 | rouge_l = 34.92 | Precision = 45.54 | Recall = 35.83 | F1 = 37.41 | examples = 8714 | valid time = 133.56 (s) ]
+04/10/2022 02:23:22 AM: [ train: Epoch 36 | perplexity = 11.80 | ml_loss = 48.23 | Time for epoch = 289.94 (s) ]
+04/10/2022 02:25:35 AM: [ dev valid official: Epoch = 36 | bleu = 18.67 | rouge_l = 35.10 | Precision = 45.30 | Recall = 36.21 | F1 = 37.53 | examples = 8714 | valid time = 132.50 (s) ]
+04/10/2022 02:30:27 AM: [ train: Epoch 37 | perplexity = 11.11 | ml_loss = 47.59 | Time for epoch = 292.03 (s) ]
+04/10/2022 02:32:41 AM: [ dev valid official: Epoch = 37 | bleu = 18.72 | rouge_l = 34.91 | Precision = 45.76 | Recall = 35.64 | F1 = 37.47 | examples = 8714 | valid time = 131.79 (s) ]
+04/10/2022 02:37:19 AM: [ train: Epoch 38 | perplexity = 12.00 | ml_loss = 47.00 | Time for epoch = 278.05 (s) ]
+04/10/2022 02:39:33 AM: [ dev valid official: Epoch = 38 | bleu = 18.31 | rouge_l = 34.44 | Precision = 45.20 | Recall = 35.47 | F1 = 37.03 | examples = 8714 | valid time = 133.20 (s) ]
+04/10/2022 02:44:27 AM: [ train: Epoch 39 | perplexity = 10.26 | ml_loss = 46.39 | Time for epoch = 293.24 (s) ]
+04/10/2022 02:46:41 AM: [ dev valid official: Epoch = 39 | bleu = 18.32 | rouge_l = 34.34 | Precision = 45.93 | Recall = 34.80 | F1 = 36.90 | examples = 8714 | valid time = 132.77 (s) ]
+04/10/2022 02:51:30 AM: [ train: Epoch 40 | perplexity = 10.21 | ml_loss = 45.81 | Time for epoch = 288.81 (s) ]
+04/10/2022 02:53:43 AM: [ dev valid official: Epoch = 40 | bleu = 18.37 | rouge_l = 34.51 | Precision = 45.34 | Recall = 35.31 | F1 = 37.01 | examples = 8714 | valid time = 132.10 (s) ]
+04/10/2022 02:58:27 AM: [ train: Epoch 41 | perplexity = 10.64 | ml_loss = 45.30 | Time for epoch = 283.51 (s) ]
+04/10/2022 03:00:40 AM: [ dev valid official: Epoch = 41 | bleu = 18.07 | rouge_l = 33.84 | Precision = 43.82 | Recall = 35.05 | F1 = 36.19 | examples = 8714 | valid time = 131.69 (s) ]
+04/10/2022 03:05:33 AM: [ train: Epoch 42 | perplexity = 9.54 | ml_loss = 44.77 | Time for epoch = 292.31 (s) ]
+04/10/2022 03:07:46 AM: [ dev valid official: Epoch = 42 | bleu = 18.25 | rouge_l = 34.31 | Precision = 44.31 | Recall = 35.88 | F1 = 36.89 | examples = 8714 | valid time = 132.19 (s) ]
+04/10/2022 03:12:25 AM: [ train: Epoch 43 | perplexity = 10.19 | ml_loss = 44.24 | Time for epoch = 279.40 (s) ]
+04/10/2022 03:14:39 AM: [ dev valid official: Epoch = 43 | bleu = 17.97 | rouge_l = 33.93 | Precision = 46.37 | Recall = 33.80 | F1 = 36.46 | examples = 8714 | valid time = 131.94 (s) ]
+04/10/2022 03:19:27 AM: [ train: Epoch 44 | perplexity = 9.23 | ml_loss = 43.72 | Time for epoch = 287.85 (s) ]
+04/10/2022 03:21:42 AM: [ dev valid official: Epoch = 44 | bleu = 18.40 | rouge_l = 34.25 | Precision = 45.31 | Recall = 34.70 | F1 = 36.78 | examples = 8714 | valid time = 133.27 (s) ]
+04/10/2022 03:26:24 AM: [ train: Epoch 45 | perplexity = 9.44 | ml_loss = 43.22 | Time for epoch = 282.07 (s) ]
+04/10/2022 03:28:37 AM: [ dev valid official: Epoch = 45 | bleu = 18.52 | rouge_l = 34.68 | Precision = 46.55 | Recall = 34.83 | F1 = 37.28 | examples = 8714 | valid time = 131.52 (s) ]
+04/10/2022 03:33:31 AM: [ train: Epoch 46 | perplexity = 8.33 | ml_loss = 42.74 | Time for epoch = 294.30 (s) ]
+04/10/2022 03:35:45 AM: [ dev valid official: Epoch = 46 | bleu = 17.71 | rouge_l = 33.65 | Precision = 44.18 | Recall = 34.84 | F1 = 36.10 | examples = 8714 | valid time = 132.42 (s) ]
+04/10/2022 03:40:36 AM: [ train: Epoch 47 | perplexity = 8.43 | ml_loss = 42.22 | Time for epoch = 291.13 (s) ]
+04/10/2022 03:42:51 AM: [ dev valid official: Epoch = 47 | bleu = 18.22 | rouge_l = 34.08 | Precision = 44.39 | Recall = 35.46 | F1 = 36.67 | examples = 8714 | valid time = 133.09 (s) ]
+04/10/2022 03:47:37 AM: [ train: Epoch 48 | perplexity = 8.49 | ml_loss = 41.75 | Time for epoch = 286.78 (s) ]
+04/10/2022 03:49:51 AM: [ dev valid official: Epoch = 48 | bleu = 18.15 | rouge_l = 34.15 | Precision = 45.49 | Recall = 34.73 | F1 = 36.70 | examples = 8714 | valid time = 132.46 (s) ]
+04/10/2022 03:54:46 AM: [ train: Epoch 49 | perplexity = 7.97 | ml_loss = 41.31 | Time for epoch = 294.74 (s) ]
+04/10/2022 03:57:02 AM: [ dev valid official: Epoch = 49 | bleu = 18.28 | rouge_l = 34.33 | Precision = 45.61 | Recall = 34.88 | F1 = 36.89 | examples = 8714 | valid time = 134.14 (s) ]
+04/10/2022 04:01:43 AM: [ train: Epoch 50 | perplexity = 8.41 | ml_loss = 40.84 | Time for epoch = 280.62 (s) ]
+04/10/2022 04:03:56 AM: [ dev valid official: Epoch = 50 | bleu = 18.27 | rouge_l = 34.35 | Precision = 44.33 | Recall = 35.66 | F1 = 36.91 | examples = 8714 | valid time = 131.97 (s) ]
+04/10/2022 04:08:49 AM: [ train: Epoch 51 | perplexity = 7.31 | ml_loss = 40.36 | Time for epoch = 293.47 (s) ]
+04/10/2022 04:11:03 AM: [ dev valid official: Epoch = 51 | bleu = 17.87 | rouge_l = 33.70 | Precision = 44.15 | Recall = 35.04 | F1 = 36.28 | examples = 8714 | valid time = 132.30 (s) ]
