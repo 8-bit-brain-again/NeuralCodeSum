@@ -5861,7 +5861,6 @@ Expect is used to make assertions See documentation for Expect
 Eventually is used to make asynchronous assertions See documentation for Eventually 
 Consistently is used to make asynchronous assertions See documentation for Consistently 
  Generates a formatted matcher success failure message of the form 
- 
  Pretty prints the passed in object at the passed in indentation level 
  Indent String takes a string and indents each line by the specified amount 
  Returns true when the string is entirely made of printable runes false otherwise 
@@ -6393,7 +6392,6 @@ Performs the subscription part of the main Loop
 Send a request to the broker to sync the group on rebalance Returns a list of topics and partitions to consume 
 Fetches latest committed offsets for all subscriptions 
 Send a request to the broker to leave the group on failes rebalance and on Close 
- 
 Mark Offset stashes the provided message offset 
 Mark Partition Offset stashes the offset for the provided topic partition combination 
 Reset Offset stashes the provided message offset See Reset Partition Offset for explanation 
@@ -7202,7 +7200,6 @@ CONTRACT rv Can Addr is true
 CONTRACT rv Can Addr is true NOTE Keep the code structure similar to decode Reflect Binary Slice 
 CONTRACT rv Can Addr is true 
  consume for skipping struct fields Read everything without doing anything with it Report errors if they occur 
- 
 Read field key 
 Error if typ doesn t match rt 
 Read typ byte 
@@ -7212,7 +7209,6 @@ This function should be used to register all interfaces that will be encoded dec
 This function should be used to register concrete types that will appear in interface fields elements to be encoded decoded by go amino Usage amino Register Concrete My Struct com tendermint My Struct nil 
 Print Types writes all registered types in a markdown style table The table s header is Type Name Prefix Notes Where Type is the golang type name and Name is the name the type was registered with 
 A heuristic to guess the size of a registered type and return it as a string If the size is not fixed it returns variable 
- 
 iinfo Type Info for the interface for which we must decode a concrete type with prefix bytes pb 
 Constructs a Type Info automatically not from registration 
 Find all conflicting prefixes for concrete types that implement the interface Implement in quotes because we only consider the pointer for extra safety 
