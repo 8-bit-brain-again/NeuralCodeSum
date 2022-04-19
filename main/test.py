@@ -12,6 +12,7 @@ import logging
 import subprocess
 import argparse
 import numpy as np
+from datetime import datetime   # DGB
 
 import c2nl.config as config
 import c2nl.inputters.utils as util
@@ -176,9 +177,16 @@ def set_defaults(args):
         args.model_name = time.strftime("%Y%m%d-") + str(uuid.uuid4())[:8]
 
     # Set log + model file names
-    args.log_file = os.path.join(args.model_dir, args.model_name + '_beam.txt')
-    args.model_file = os.path.join(args.model_dir, args.model_name + '.mdl')
-    args.pred_file = os.path.join(args.model_dir, args.model_name + '_beam.json')
+    # DGB -- add timestamp to differentiate on multiple runs when generating only
+    if args.only_generate:
+        now = datetime.now()
+        args.log_file = os.path.join(args.model_dir, args.model_name + '_beam' + now.strftime("%Y%m%d%H%M%S") + '.txt')
+        args.model_file = os.path.join(args.model_dir, args.model_name + '.mdl')
+        args.pred_file = os.path.join(args.model_dir, args.model_name + '_beam' + now.strftime("%Y%m%d%H%M%S") + '.json')
+    else:
+        args.log_file = os.path.join(args.model_dir, args.model_name + '_beam.txt')
+        args.model_file = os.path.join(args.model_dir, args.model_name + '.mdl')
+        args.pred_file = os.path.join(args.model_dir, args.model_name + '_beam.json')
 
 
 # ------------------------------------------------------------------------------

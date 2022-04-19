@@ -2,3 +2,8 @@
 *.pyc
 */__pycache__/*
 c2nl/*/__pycache__/*
+tmp/*.mdl
+tmp/*.checkpoint
+tmp/model\ backups/
+
+

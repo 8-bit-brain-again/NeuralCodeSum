@@ -280,6 +280,12 @@ def train(args, data_loader, model, global_stats):
             for param_group in model.optimizer.param_groups:
                 param_group['lr'] = cur_lrate
 
+
+        # print('############################')    # DGB
+        # print(ex)
+        # print('############################')    # DGB
+
+
         net_loss = model.update(ex)
         ml_loss.update(net_loss['ml_loss'], bsz)
         perplexity.update(net_loss['perplexity'], bsz)
@@ -507,6 +513,11 @@ def main(args):
             lang_name = constants.DATA_LANG_MAP[dataset_name]
             args.dataset_weights[constants.LANG_ID_MAP[lang_name]] = len(exs)
             train_exs.extend(exs)
+
+            # print('--------------------------')   # DGB
+            # print(lang_name)
+            # print(args.dataset_weights)
+            # print('--------------------------')   # DGB
 
         logger.info('Num train examples = %d' % len(train_exs))
         args.num_train_examples = len(train_exs)

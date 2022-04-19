@@ -461,3 +461,4 @@
 04/19/2022 01:10:38 PM: [ train: Epoch 17 | perplexity = 16.76 | ml_loss = 30.17 | Time for epoch = 202.52 (s) ]
 04/19/2022 01:13:59 PM: [ dev valid official: Epoch = 17 | bleu = 22.50 | rouge_l = 40.03 | Precision = 47.97 | Recall = 40.99 | F1 = 42.04 | examples = 18505 | valid time = 199.56 (s) ]
 04/19/2022 01:13:59 PM: [ Best valid: bleu = 22.50 (epoch 17, 29512 updates) ]
+04/19/2022 01:17:20 PM: [ train: Epoch 18 | perplexity = 15.89 | ml_loss = 29.22 | Time for epoch = 199.77 (s) ]

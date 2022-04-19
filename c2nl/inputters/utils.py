@@ -38,6 +38,13 @@ def process_examples(lang_id,
                      code_tag_type,
                      uncase=False,
                      test_split=True):
+
+    # DGB
+    for ch in ['(',')','[',']','{','}',';']:
+        if ch in source:
+            source = source.replace(ch,' ')
+    # print(source)
+
     code_tokens = source.split()
     code_type = []
     if source_tag is not None:
@@ -60,6 +67,12 @@ def process_examples(lang_id,
     if code_tag_type != 'subtoken':
         code.mask = [1 if ct == 'N' else 0 for ct in code_type]
 
+    # print('----------------------------------')   # DGB
+    # print(code.tokens)
+    # print(code.type)
+    # print(code.mask)
+    # print('----------------------------------')
+
     if target is not None:
         summ = target.lower() if uncase else target
         summ_tokens = summ.split()
@@ -78,6 +91,12 @@ def process_examples(lang_id,
     example = dict()
     example['code'] = code
     example['summary'] = summary
+
+    # print('-----------------')  # DGB
+    # print(lang_id)
+    # print(code.tokens)
+    # print(summary.tokens)
+    # print('-----------------')
     return example
 
 
