@@ -1,0 +1,121 @@
+=========================
+public ProducerWorker ( String topic , String message ) { this . _topic = topic ; this . _message = message ; }
+
+creates a new producer object .
+
+['create a new worker with the given topic and topic .']
+['initializes a new parser and initializes it with the given topic .']
+['constructs a makesystemname with the relevant data .']
+=========================
+public String chooseServerAlias ( String keyType , Principal [ ] issuers , Socket socket ) { return defaultX509KM . chooseServerAlias ( keyType , issuers , socket ) ; }
+
+returns an alias to authenticate the server side of a secure socket given the public key type and the list of certificate issuer authorities recognized by the peer ( if any ) .
+
+['choose an alias to authenticate the server side of a secure socket given the public key type and the list of certificate issuer authorities recognized by the peer ( if any ) .']
+['choose an alias to authenticate the client side of a secure socket given the public key type and the list of certificate issuer authorities recognized by the peer ( if any ) .']
+['choose an alias to authenticate the server side of a secure socket given the public key type and the list of certificate issuer authorities recognized by the peer .']
+=========================
+private void showPreloadingStage ( ) { Stage preloadingStage = new Stage ( StageStyle . UNDECORATED ) ; preloadingStage . initOwner ( primaryStage ) ; preloadingStage . setScene ( new PreloadingScene ( ) ) ; preloadingStage . show ( ) ; primaryStage . setOnShowing ( null ) ; }
+
+shows preloading stage with scene while fxgl is being configured .
+
+['shows the primary stage for stage']
+['show street in a separate window .']
+['display the primary namespace .']
+=========================
+private void resetOutputBuilders ( ) { ansi = Ansi . ansi ( ) ; stringBuilder = new StringBuilder ( ) ; }
+
+reset both output builders .
+
+['resets the output in the beginning of the string builder']
+['resets the output to create a new name - value pairs .']
+['resets output to hdfs']
+=========================
+private boolean isLatestDssKeystore ( TSLParserResult parseResult ) { List < String > englishSchemeInformationURIs = parseResult . getEnglishSchemeInformationURIs ( ) ; return englishSchemeInformationURIs . contains ( ojUrl ) ; }
+
+this method checks if the oj url is still correct . if not , the dss keystore is outdated .
+
+['determine if the bitmap scheme contains the updated']
+['checks if the given possibility url is unique .']
+['checks if the given osgi path checks or not']
+=========================
+public Rectangle2D createProperBounds ( double x1 , double y1 , double x2 , double y2 ) { double x = Math . min ( x1 , x2 ) ; double y = Math . min ( y1 , y2 ) ; double w = Math . abs ( x1 - x2 ) ; double h = Math . abs ( y1 - y2 ) ; return new Rectangle2D . Double ( x , y , w , h ) ; }
+
+create a bounding rectangle given the four coordinates , where the upper left corner of the rectangle is the minimum x , y values and the width and height are the difference between xs and ys .
+
+['creates a bounds of the ax defined by the given bounds .']
+['creates a length of an xy . the x , y , and z values .']
+['returns a mousepressed rectangle for the given rectangle .']
+=========================
+public static String write ( POSMikheevCounter counter ) { return POSBaseLineCounter . write ( counter ) ; }
+
+write an instance of posmikheevcounter class to json format
+
+['write the given extra string to the given outputstream .']
+['writes the current line to the output stream .']
+['write a little - endian formatting to the string section .']
+=========================
+protected int maxDepth ( Layout . Node node ) { int depth = _NUM ; for ( int i = _NUM ; i < node . numChildren ( ) ; i ++ ) { Layout . Node child = node . getChild ( i ) ; depth = Math . max ( depth , maxDepth ( child ) ) ; } return depth + _NUM ; }
+
+compute the depth of the graph .
+
+['this method returns the children of the node and returns the max value of the node . it will be returned .']
+['layout the children of the given node .']
+['find the maximum element of a given node in the model .']
+=========================
+private static URI refragUri ( URI uri , String frag ) throws URISyntaxException { return new URI ( uri . getScheme ( ) , uri . getSchemeSpecificPart ( ) , frag ) ; }
+
+return a new uri with a different fragment .
+
+['given a uri , given a uri and a uri and a uri .']
+['constructs and gather uri for a uri']
+['get a dummy uri from a uri and the uri .']
+=========================
+public boolean isValidNumber ( PhoneNumber number ) { String regionCode = getRegionCodeForNumber ( number ) ; return isValidNumberForRegion ( number , regionCode ) ; }
+
+tests whether a phone number matches a valid pattern . note this doesn ' t verify the number is actually in use , which is impossible to tell by just looking at a number itself .
+
+["helper function to determine if a phone number for old phone number . this is used phone number doesn ' t fail is so that the number of normal id was created into the number ."]
+['tests whether the number is valid']
+['helper method to determine whether a phone number contains a phone number .']
+=========================
+public void addMetaObject ( MetaObject object ) { for ( int k = _NUM ; k < MetaObjects . size ( ) ; ++ k ) { if ( MetaObjects . get ( k ) == null ) { MetaObjects . set ( k , object ) ; return ; } } MetaObjects . add ( object ) ; }
+
+add a metaobject to the state .
+
+['adds the meta - metadata to this meta .']
+['adds all objects to the specified object .']
+['adds the specified object to the set .']
+=========================
+public void refreshInheritedMethods ( Set modifiedSuperExpandos ) { for ( Iterator i = modifiedSuperExpandos . iterator ( ) ; i . hasNext ( ) ; ) { ExpandoMetaClass superExpando = ( ExpandoMetaClass ) i . next ( ) ; if ( superExpando != this ) { refreshInheritedMethods ( superExpando ) ; } } }
+
+called from expandometaclasscreationhandle in the registry if it exists to set up inheritance handling
+
+['refreshes the instances of this class with new data package in this class descriptor .']
+["refreshes the building of known vectors and refresh the factory ' s loadclass configurations ."]
+['refresh the visitor on every memory strategy']
+=========================
+public Dimension maximumLayoutSize ( Container target ) { return new Dimension ( Integer . MAX_VALUE , Integer . MAX_VALUE ) ; }
+
+returns the maximum dimensions for this layout given the components in the specified target container .
+
+['returns the maximum dimensions needed to use the target container as a given space , given the components it contains .']
+['returns the maximum dimensions needed to layout the target container can use .']
+['returns the maximum dimensions the target container can use .']
+=========================
+private void readObject ( ObjectInputStream in ) throws IOException , ClassNotFoundException { in . defaultReadObject ( ) ; if ( choiceLimits . length != choiceFormats . length ) { throw new InvalidObjectException ( STRING ) ; } }
+
+after reading an object from the input stream , do a simple verification to maintain class invariants .
+
+['recreate inner state for object . also , verifies that the deserialized values are non - null .']
+['verifies that member fields are non - null .']
+['specify the default serializable field values for this error descriptor .']
+=========================
+public boolean isProductionJournal ( Set < String > productionCopies , Volume volume ) { for ( String productionCopy : productionCopies ) { if ( productionCopy . equalsIgnoreCase ( volume . getRpCopyName ( ) ) ) { return _BOOL ; } } return _BOOL ; }
+
+checks to see if the volume is a production journal . we check to see if the volume ' s rp copy name lines up with any of the given production copies .
+
+['returns true if the copy of the given volume is pin .']
+['checks if this volume is a production for any of the given volume class , false otherwise']
+['check if a volume is terminated']
+=========================
