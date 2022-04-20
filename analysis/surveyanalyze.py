@@ -1,83 +1,57 @@
-import sys
-import json
-import random
+import sys 
+import pandas as pd
+import numpy as np
 
 
 # Relative paths = run this module from where it lives
-codeFile = '../data/java/test/code.original'
-truthFile = '../data/java/test/javadoc.original'
-predictionFiles = [
-    '../tmp/generated/full_java_beam20220417222507.json',
-    '../tmp/generated/full_java_nosym_beam20220417220804.json',
-    '../tmp/generated/full_java_2_beam20220419222018.json',
-]
+datafilename = 'Automatically Generated Code Summary Survey (Responses) - Form Responses 1.csv'
+
+numFuncs = 15
+
+numExperiments = 3
 
 
-def readTextFile(filename):
-    data = []
-    with open(filename) as f:
-        for line in f:
-            data.append(line)
-    return data
-
-
-def readJsonFile(filename):
-    datadict = None
-    with open(filename, 'r') as f:
-        datadict = json.load(f)
-    return list(datadict.values())
+# def readCSVFile(filename):
+#     codingExps = []
+#     javaExps = []
+#     comments = []
+#     with open(filename) as f:
+#         for line in f:
+#             if (line[0] == 'T'): continue  # dumb way to skip header line
+#             values = line.split(',')
+#             codingExps.append(float(values[1]))
+#             javaExps.append(float(values[2]))
+#             comments.append(values[-1])
 
 
 def main():
-    codes = readTextFile(codeFile)
-    truths = readTextFile(truthFile)
-    predsList = []
-    for predictionFile in predictionFiles:
-        predsList.append(readJsonFile(predictionFile))
+    df = pd.read_csv(datafilename)
 
-    # total = 0
-    # total2 = 0
-    # for code in codes:
-    #     total += len(code)
-    #     if (len(code) < 300):
-    #         print(code)
-    #         total2 += 1
-    # print('avg:', total / len(codes))
-    # print('blah:', total2)
+    # for col in df.columns:
+    #     print(col)    
+    #     print(df[col])
 
-    # print('File lengths:')
-    # print('Code:', len(codes))
-    # print('Ground truth:', len(truths))
-    # for preds in predsList:
-    #     print('Prediction:', len(preds))
+    relAvgs = np.zeros((numExperiments, numFuncs))
+    simAvgs = np.zeros((numExperiments, numFuncs))
+    natAvgs = np.zeros((numExperiments, numFuncs))
 
-    print('=========================')
-    surveyQuestions = []
-    limit = len(predsList[0])
-    while len(surveyQuestions) < 15:
-        candidate = random.randrange(0, limit)
-        codeCandidate = codes[candidate]
-        truthCandidate = truths[candidate]
-        summariesCandidate = [truthCandidate]
-        for preds in predsList:
-            summariesCandidate.append(preds[candidate])
+    col = 3
+    for func in range(numFuncs):
+        for exp in range(numExperiments):
+            relAvgs[exp][func] = df[df.columns[col]].mean()
+            col += 1
+            simAvgs[exp][func] = df[df.columns[col]].mean()
+            col += 1
+            natAvgs[exp][func] = df[df.columns[col]].mean()
+            col += 1
 
-        if (len(codeCandidate) > 300) or (len(codeCandidate) < 50):
-            continue
+    for exp in range(numExperiments):
+        # print('Rel avgs exp{}: {}'.format(exp, relAvgs[exp]))
+        print('Rel avg exp{}: {}'.format(exp, relAvgs[exp].mean()))
+        print('Sim avg exp{}: {}'.format(exp, simAvgs[exp].mean()))
+        print('Nat avg exp{}: {}'.format(exp, natAvgs[exp].mean()))
+        print()
 
-        dupeFound = False
-        for i in range(len(summariesCandidate) - 1):
-            for j in range(i+1, len(summariesCandidate)):
-                if summariesCandidate[i] == summariesCandidate[j]:
-                    dupeFound = True
-        if dupeFound: 
-            continue
-
-        print(codeCandidate)
-        for summary in summariesCandidate:
-            print(summary)
-        print('=========================')
-        surveyQuestions.append([codeCandidate, summariesCandidate])
 
 
 if __name__ == '__main__':
