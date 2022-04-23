@@ -44,6 +44,8 @@ def main():
             natAvgs[exp][func] = df[df.columns[col]].mean()
             col += 1
 
+    print('For N = {}'.format(len(df[df.columns[0]])))
+
     for exp in range(numExperiments):
         # print('Rel avgs exp{}: {}'.format(exp, relAvgs[exp]))
         print('Rel avg exp{}: {}'.format(exp, relAvgs[exp].mean()))
