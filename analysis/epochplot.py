@@ -14,17 +14,18 @@ dataDir = '../tmp'
 plotsDir = 'epochplots'
 
 experiments = {
-    # 'full_java':'Java Full',
-    # 'full_java_nosym':'Java Full NoBrackets',
-    # 'full_java_2':'Java Full SplitDecoder',
+    'full_java':'Java Full',
+    'full_java_nosym':'Java Full NoBrackets',
+    'full_java_2':'Java Full SplitDecoder',
     # 'full_py':'Python Full',
+    # 'rnn_py':'Python RNN',
     # 'full_php':'PHP Full',
-    'full_go':'Go Full',
-    'full_go_2':'Go Full LR=5e-5',
-    'full_go_3':'Go Full LR=1e-5',
-    'full_go_4':'Go Full short tgt_len',
-    'full_go_5':'Go Full long src_len,tgt_len & small vocab',
-    'full_go_6':'Go Full 5 but split decoder',
+    # 'full_go':'Go Full',
+    # 'full_go_2':'Go Full LR=5e-5',
+    # 'full_go_3':'Go Full LR=1e-5',
+    # 'full_go_4':'Go Full short tgt_len',
+    # 'full_go_5':'Go Full long src_len,tgt_len & small vocab',
+    # 'full_go_6':'Go Full 5 but split decoder',
 }
 
 fields = [
@@ -97,10 +98,10 @@ def main():
             plot(fig, experiments[experiment] + '-' + field, df[field], color)
             traceNum += 1
 
-    fig.update_layout(title='',
+    fig.update_layout(title='Experiment 2',
                     #   title=' vs. '.join(experiments.values()),
                       xaxis_title='Epoch',
-                      yaxis_title='', 
+                      yaxis_title='BLEU', 
                       legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
 
     if not(os.path.exists(plotsDir)): os.makedirs(plotsDir)
