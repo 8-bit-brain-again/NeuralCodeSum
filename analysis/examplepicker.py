@@ -68,9 +68,8 @@ def main():
         preds = readJsonFile(experiments[experiment][3])
         limit = len(preds)
 
-        for i in range(numExamples):
-            print('====================')
-            print('{} Example #{}'.format(experiments[experiment][0], i+1))
+        i = 0
+        while (i < numExamples):
             candidate = random.randrange(0, limit)
 
             # TOTALLY LEGIT
@@ -79,11 +78,19 @@ def main():
             if ((experiment == 'go_full') and (i == 1)):
                 candidate = 6579
 
+            if (len(truths[candidate]) < 11) or (len(preds[candidate][0]) < 11) or \
+                (truths[candidate][0:10] == preds[candidate][0][0:10]):
+                continue
+
+            print('\n\\subsection{')
+            print('{} Example \#{}'.format(experiments[experiment][0], i+1))
+            print('}')
+            print('\\begin{verbatim}')
             print(codes[candidate])
-            print()
-            print(truths[candidate])
-            print()
-            print(preds[candidate][0])
+            print('GROUND TRUTH:', truths[candidate])
+            print('PREDICTION:', preds[candidate][0])
+            print('\\end{verbatim}')
+            i += 1
         
 
 

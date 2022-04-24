@@ -1,0 +1,198 @@
+
+\subsection{
+Java Full Model Example \#1
+}
+\begin{verbatim}
+private void connect ( ) { if ( ! connected ) { updateInfo ( ) ; String connectString = STRING + connectAddress + STRING + connectPort ; if ( clientId == null || clientId . length ( ) < _NUM ) { out ( getDate ( ) + Messages . MqttClientView_15 + connectString + Messages . MqttClientView_16 ) ; return ; } try { if ( firstConnect ) { mqttClient = new MqttClient ( connectString , clientId ) ; mqttClient . setCallback ( this ) ; firstConnect = _BOOL ; } } catch ( MqttException e ) { out ( getDate ( ) + Messages . MqttClientView_17 + e . getMessage ( ) ) ; e . printStackTrace ( ) ; } connOpts = new MqttConnectOptions ( ) ; connOpts . setCleanSession ( cleanStart ) ; connOpts . setConnectionTimeout ( _NUM ) ; connOpts . setKeepAliveInterval ( keepAlive ) ; if ( username . length ( ) > _NUM && password . length ( ) > _NUM ) { connOpts . setPassword ( password . toCharArray ( ) ) ; connOpts . setUserName ( username ) ; } if ( useWill ) { if ( willTopic == null || willTopic . equals ( STRING ) ) { out ( Messages . MqttClientView_19 ) ; return ; } connOpts . setWill ( mqttClient . getTopic ( willTopic ) , willMessage . getBytes ( ) , willQos , willRetain ) ; } try { out ( getDate ( ) + Messages . MqttClientView_20 + connectString ) ; mqttClient . connect ( connOpts ) ; connected = _BOOL ; out ( getDate ( ) + Messages . MqttClientView_21 + clientId ) ; } catch ( MqttException e ) { out ( getDate ( ) + Messages . MqttClientView_22 + e . getMessage ( ) ) ; e . printStackTrace ( ) ; } } else { out ( Messages . MqttClientView_23 ) ; } }
+
+GROUND TRUTH: connects to the broker
+
+PREDICTION: connect to the client and connect to the remote server .
+\end{verbatim}
+
+\subsection{
+Java Full Model Example \#2
+}
+\begin{verbatim}
+public Builder deletePreferredLanguage ( ) { deleteFields . add ( STRING ) ; return this ; }
+
+GROUND TRUTH: delete the preferred language of a existing user
+
+PREDICTION: deletes all x509certificates of a existing user
+\end{verbatim}
+
+\subsection{
+Java Full Model Example \#3
+}
+\begin{verbatim}
+private static Map < String , Set < String > > parseSparseFields ( MultivaluedMap < String , String > queryParams ) { Map < String , Set < String > > result = new HashMap < > ( ) ; for ( Map . Entry < String , List < String > > kv : queryParams . entrySet ( ) ) { String key = kv . getKey ( ) ; if ( key . startsWith ( STRING ) && key . endsWith ( STRING ) ) { String type = key . substring ( _NUM , key . length ( ) - _NUM ) ; LinkedHashSet < String > filters = new LinkedHashSet < > ( ) ; for ( String filterParams : kv . getValue ( ) ) { Collections . addAll ( filters , filterParams . split ( STRING ) ) ; } if ( ! filters . isEmpty ( ) ) { result . put ( type , filters ) ; } } } return result ; }
+
+GROUND TRUTH: parses queryparams and produces sparsefields map .
+
+PREDICTION: parses a map of http parameters parameters
+\end{verbatim}
+
+\subsection{
+Java Full Model - no brackets Example \#1
+}
+\begin{verbatim}
+public void rollback ( Throwable t ) { log . debug ( STRING + tempFile + STRING + t ) ; try { fileContentStore . delete ( tempFile , node ) ; } catch ( Exception e ) { t . addSuppressed ( e ) ; } }
+
+GROUND TRUTH: rollback the download ( delete the temporary file )
+
+PREDICTION: deletes a throwable . throwable fails .
+\end{verbatim}
+
+\subsection{
+Java Full Model - no brackets Example \#2
+}
+\begin{verbatim}
+public static boolean doCacheHeaderValidation ( final SolrQueryRequest solrReq , final HttpServletRequest req , final Method reqMethod , final HttpServletResponse resp ) { if ( Method . POST == reqMethod || Method . OTHER == reqMethod ) { return _BOOL ; } final long lastMod = HttpCacheHeaderUtil . calcLastModified ( solrReq ) ; final String etag = HttpCacheHeaderUtil . calcEtag ( solrReq ) ; resp . setDateHeader ( STRING , lastMod ) ; resp . setHeader ( STRING , etag ) ; if ( checkETagValidators ( req , resp , reqMethod , etag ) ) { return _BOOL ; } if ( checkLastModValidators ( req , resp , lastMod ) ) { return _BOOL ; } return _BOOL ; }
+
+GROUND TRUTH: sets http response cache validator headers appropriately and validates the http request against these using any conditional request headers . if the request contains conditional headers , and those headers indicate a match with the current known state of the system , this method will return " true " indicating that a 304 status code can be returned , and no further processing is needed .
+
+PREDICTION: makes the http post request to the request or not - the db
+\end{verbatim}
+
+\subsection{
+Java Full Model - no brackets Example \#3
+}
+\begin{verbatim}
+public static long lowerHexToUnsignedLong ( String lowerHex ) { int length = lowerHex . length ( ) ; if ( length < _NUM || length > _NUM ) throw isntLowerHexLong ( lowerHex ) ; int i = length > _NUM ? length - _NUM : _NUM ; long result = _NUM ; for ( ; i < length ; i ++ ) { char c = lowerHex . charAt ( i ) ; result <<= _NUM ; if ( c >= STRING && c <= STRING ) { result |= c - STRING ; } else if ( c >= STRING && c <= STRING ) { result |= c - STRING + _NUM ; } else { throw isntLowerHexLong ( lowerHex ) ; } } return result ; }
+
+GROUND TRUTH: parses a 1 to 32 character lower - hex string with no prefix into an unsigned long , tossing any bits higher than 64 .
+
+PREDICTION: convert a hex string to an array of hexadecimal digits
+\end{verbatim}
+
+\subsection{
+Java Full Model - split decoder Example \#1
+}
+\begin{verbatim}
+public SimpleMetricGroup ( GroupName name , Stream < ? extends Metric > i ) { this ( name , i . collect ( Collectors . < Metric > toList ( ) ) ) ; }
+
+GROUND TRUTH: create a metric group with the given metrics .
+
+PREDICTION: create a new normalize .
+\end{verbatim}
+
+\subsection{
+Java Full Model - split decoder Example \#2
+}
+\begin{verbatim}
+private void moveSingleNode ( Object source , Point newPoint ) { DisplayNode node = ( DisplayNode ) source ; int deltaX = newPoint . x - clickPoint . x ; int deltaY = newPoint . y - clickPoint . y ; int newX = node . getLocation ( ) . x + deltaX ; int newY = node . getLocation ( ) . y + deltaY ; node . setLocation ( newX , newY ) ; }
+
+GROUND TRUTH: move a single , unselected node .
+
+PREDICTION: move all the single point
+\end{verbatim}
+
+\subsection{
+Java Full Model - split decoder Example \#3
+}
+\begin{verbatim}
+protected void writeDistribution ( Parameter parameter , boolean isRef , XMLWriter writer ) { switch ( parameter . priorType ) { case UNIFORM_PRIOR : String id = parameter . taxaId + STRING ; if ( isRef ) { writer . writeIDref ( UniformDistributionModelParser . UNIFORM_DISTRIBUTION_MODEL , id ) ; } else { writer . writeOpenTag ( UniformDistributionModelParser . UNIFORM_DISTRIBUTION_MODEL , new Attribute [ ] { new Attribute . Default < String > ( XMLParser . ID , id ) } ) ; writer . writeOpenTag ( UniformDistributionModelParser . LOWER ) ; writer . writeText ( Double . toString ( parameter . uniformLower ) ) ; writer . writeCloseTag ( UniformDistributionModelParser . LOWER ) ; writer . writeOpenTag ( UniformDistributionModelParser . UPPER ) ; writer . writeText ( Double . toString ( parameter . uniformUpper ) ) ; writer . writeCloseTag ( UniformDistributionModelParser . UPPER ) ; writer . writeCloseTag ( UniformDistributionModelParser . UNIFORM_DISTRIBUTION_MODEL ) ; } break ; case EXPONENTIAL_PRIOR : writer . writeOpenTag ( ExponentialDistributionModel . EXPONENTIAL_DISTRIBUTION_MODEL ) ; writer . writeOpenTag ( DistributionModelParser . MEAN ) ; writer . writeText ( Double . toString ( parameter . mean ) ) ; writer . writeCloseTag ( DistributionModelParser . MEAN ) ; writer . writeOpenTag ( DistributionModelParser . OFFSET ) ; writer . writeText ( Double . toString ( parameter . offset ) ) ; writer . writeCloseTag ( DistributionModelParser . OFFSET ) ; writer . writeCloseTag ( ExponentialDistributionModel . EXPONENTIAL_DISTRIBUTION_MODEL ) ; break ; case NORMAL_PRIOR : writer . writeOpenTag ( NormalDistributionModelParser . NORMAL_DISTRIBUTION_MODEL ) ; writer . writeOpenTag ( NormalDistributionModelParser . MEAN ) ; writer . writeText ( Double . toString ( parameter . mean ) ) ; writer . writeCloseTag ( NormalDistributionModelParser . MEAN ) ; writer . writeOpenTag ( NormalDistributionModelParser . STDEV ) ; writer . writeText ( Double . toString ( parameter . stdev ) ) ; writer . writeCloseTag ( NormalDistributionModelParser . STDEV ) ; writer . writeCloseTag ( NormalDistributionModelParser . NORMAL_DISTRIBUTION_MODEL ) ; break ; case LOGNORMAL_PRIOR : writer . writeOpenTag ( LogNormalDistributionModelParser . LOGNORMAL_DISTRIBUTION_MODEL , new Attribute [ ] { new Attribute . Default < Boolean > ( LogNormalDistributionModelParser . MEAN_IN_REAL_SPACE , parameter . isMeanInRealSpace ( ) ) , new Attribute . Default < Boolean > ( LogNormalDistributionModelParser . STDEV_IN_REAL_SPACE , parameter . isMeanInRealSpace ( ) ) } ) ; writer . writeOpenTag ( LogNormalDistributionModelParser . MEAN ) ; writer . writeText ( Double . toString ( parameter . mean ) ) ; writer . writeCloseTag ( LogNormalDistributionModelParser . MEAN ) ; writer . writeOpenTag ( LogNormalDistributionModelParser . STDEV ) ; writer . writeText ( Double . toString ( parameter . stdev ) ) ; writer . writeCloseTag ( LogNormalDistributionModelParser . STDEV ) ; writer . writeOpenTag ( LogNormalDistributionModelParser . OFFSET ) ; writer . writeText ( Double . toString ( parameter . offset ) ) ; writer . writeCloseTag ( LogNormalDistributionModelParser . OFFSET ) ; writer . writeCloseTag ( LogNormalDistributionModelParser . LOGNORMAL_DISTRIBUTION_MODEL ) ; break ; case GAMMA_PRIOR : writer . writeOpenTag ( GammaDistributionModel . GAMMA_DISTRIBUTION_MODEL ) ; writer . writeOpenTag ( DistributionModelParser . SHAPE ) ; writer . writeText ( Double . toString ( parameter . shape ) ) ; writer . writeCloseTag ( DistributionModelParser . SHAPE ) ; writer . writeOpenTag ( DistributionModelParser . SCALE ) ; writer . writeText ( Double . toString ( parameter . scale ) ) ; writer . writeCloseTag ( DistributionModelParser . SCALE ) ; writer . writeOpenTag ( DistributionModelParser . OFFSET ) ; writer . writeText ( Double . toString ( parameter . offset ) ) ; writer . writeCloseTag ( DistributionModelParser . OFFSET ) ; writer . writeCloseTag ( GammaDistributionModel . GAMMA_DISTRIBUTION_MODEL ) ; break ; default : throw new IllegalArgumentException ( STRING + parameter . getName ( ) ) ; } }
+
+GROUND TRUTH: write the distribution for * distributionmodel
+
+PREDICTION: writes the distribution for the given parameters .
+\end{verbatim}
+
+\subsection{
+Python Full Model Example \#1
+}
+\begin{verbatim}
+def swift_load_pack_index scon filename f scon get_object filename try return load_pack_index_file filename f finally f close
+
+GROUND TRUTH: read a pack index file from swift .
+
+PREDICTION: load an index file by filename .
+\end{verbatim}
+
+\subsection{
+Python Full Model Example \#2
+}
+\begin{verbatim}
+def separate x axis 0 shape list x shape del shape[axis]ys split_axis split_axis x x shape[axis] axis force_tuple True return tuple reshape reshape y shape for y in ys
+
+GROUND TRUTH: separates an array along a given axis .
+
+PREDICTION: expands given variables along an axis .
+\end{verbatim}
+
+\subsection{
+Python Full Model Example \#3
+}
+\begin{verbatim}
+def validate_api_version version if float version < legacy_api MIN_VERSION return Falseif float version > legacy_api MAX_VERSION return Falsereturn True
+
+GROUND TRUTH: we want to be able to deprecate old versions of the api .
+
+PREDICTION: validate api version of pooler .
+\end{verbatim}
+
+\subsection{
+GoLang Full Model Example \#1
+}
+\begin{verbatim}
+func RegisterLockHandler ( ctx context . Context , mux * runtime . ServeMux , conn * grpc . ClientConn ) error { return RegisterLockHandlerClient ( ctx , mux , v3lockpb . NewLockClient ( conn ) ) } 
+
+GROUND TRUTH: Register Lock Handler registers the http handlers for service Lock to mux The handlers forward requests to the grpc endpoint over conn 
+
+PREDICTION: register lock handler registers a new http handlers for service
+\end{verbatim}
+
+\subsection{
+GoLang Full Model Example \#2
+}
+\begin{verbatim}
+func ( p * Page ) GetCookies ( ) ( [ ] * http . Cookie , error ) { apiCookies , err := p . session . GetCookies ( ) if err != nil { return nil , fmt . Errorf ( " " , err ) } cookies := [ ] * http . Cookie { } for _ , apiCookie := range apiCookies { expSeconds := int64 ( apiCookie . Expiry ) expNano := int64 ( apiCookie . Expiry - float64 ( expSeconds ) ) * 1000000000 cookie := & http . Cookie { Name : apiCookie . Name , Value : apiCookie . Value , Path : apiCookie . Path , Domain : apiCookie . Domain , Secure : apiCookie . Secure , HttpOnly : apiCookie . HTTPOnly , Expires : time . Unix ( expSeconds , expNano ) , } cookies = append ( cookies , cookie ) } return cookies , nil } 
+
+GROUND TRUTH: Get Cookies returns all cookies on the page 
+
+PREDICTION: cookies cookies get cookies returns the cookies
+\end{verbatim}
+
+\subsection{
+GoLang Full Model Example \#3
+}
+\begin{verbatim}
+func ( p * Page ) Destroy ( ) error { if err := p . session . Delete ( ) ; err != nil { return fmt . Errorf ( " " , err ) } return nil } 
+
+GROUND TRUTH: Destroy closes any open browsers by ending the session 
+
+PREDICTION: destroy destroy destroy destroy destroy destroy destroy destroy destroy destroy
+\end{verbatim}
+
+\subsection{
+PHP Full Model Example \#1
+}
+\begin{verbatim}
+public function process_matched_token ( $ stackPtr , $ group_name , $ matched_content ) { $ this -> get_wp_version_from_cl ( ) ; switch ( $ matched_content ) { case 'strip_tags' : if ( $ this -> get_function_call_parameter_count ( $ stackPtr ) !== 1 ) { return ; } break ; case 'wp_parse_url' : if ( $ this -> get_function_call_parameter_count ( $ stackPtr ) !== 1 && version_compare ( $ this -> minimum_supported_version , '4.7.0' , '<' ) ) { return ; } break ; case 'file_get_contents' : $ params = $ this -> get_function_call_parameters ( $ stackPtr ) ; if ( isset ( $ params [ 2 ] ) && 'true' === $ params [ 2 ] [ 'raw' ] ) { * Allow for handling raw data streams from the request body. */ $ first_param = $ this -> get_function_call_parameter ( $ stackPtr , 1 ) ; if ( false === $ first_param ) { 
+
+GROUND TRUTH: Process a matched token 
+
+PREDICTION: process a group param string
+\end{verbatim}
+
+\subsection{
+PHP Full Model Example \#2
+}
+\begin{verbatim}
+public function get ( $ length = null ) { if ( $ length === null ) { $ length = $ this -> limit - $ this -> position ; } elseif ( $ length > $ this -> remaining ( ) ) { throw new BufferUnderFlowException ( ) ; } $ data = substr ( $ this -> byteArray , $ this -> position , $ length ) ; $ this -> position += $ length ; return $ data ; } 
+
+GROUND TRUTH: Reads the specified amount of bytes from the current var position var of the byte buffer 
+
+PREDICTION: get the position
+\end{verbatim}
+
+\subsection{
+PHP Full Model Example \#3
+}
+\begin{verbatim}
+public function submit ( $ data , $ form , $ request ) { $ member = Security :: getCurrentUser ( ) ; if ( ! $ member ) { return false ; } $ form -> saveInto ( $ member ) ; $ member -> write ( ) ; $ form -> sessionMessage ( _t ( __CLASS__ . '.DetailsSaved' , 'Your details have been saved' ) , 'good' ) ; $ this -> extend ( 'updateShopAccountFormResponse' , $ request , $ form , $ data , $ response ) ; return $ response ? : $ this -> getController ( ) -> redirectBack ( ) ; } 
+
+GROUND TRUTH: Save the changes to the form 
+
+PREDICTION: submit a resource
+\end{verbatim}
