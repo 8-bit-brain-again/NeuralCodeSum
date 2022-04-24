@@ -12,6 +12,8 @@ numFuncs = 15
 
 numExperiments = 3
 
+N = 19 # number of participants
+
 # def readCSVFile(filename):
 #     codingExps = []
 #     javaExps = []
@@ -42,21 +44,26 @@ def main():
     #     print(col)    
     #     print(df[col])
 
-    relAvgs = np.zeros((numExperiments, numFuncs))
-    simAvgs = np.zeros((numExperiments, numFuncs))
-    natAvgs = np.zeros((numExperiments, numFuncs))
+    relAvgs = np.zeros((numExperiments, N))
+    simAvgs = np.zeros((numExperiments, N))
+    natAvgs = np.zeros((numExperiments, N))
 
-    col = 3
-    for func in range(numFuncs):
+    for n in range(N):
+        col = 3
+        for func in range(numFuncs):
+            for exp in range(numExperiments):
+                relAvgs[exp][n] += df.iloc[n, col]
+                col += 1
+                simAvgs[exp][n] += df.iloc[n, col]
+                col += 1
+                natAvgs[exp][n] += df.iloc[n, col]
+                col += 1
         for exp in range(numExperiments):
-            relAvgs[exp][func] = df[df.columns[col]].mean()
-            col += 1
-            simAvgs[exp][func] = df[df.columns[col]].mean()
-            col += 1
-            natAvgs[exp][func] = df[df.columns[col]].mean()
-            col += 1
+            relAvgs[exp][n] /= numFuncs
+            simAvgs[exp][n] /= numFuncs
+            natAvgs[exp][n] /= numFuncs
 
-    print('For N = {}'.format(len(df[df.columns[0]])))
+    print('For N = {}'.format(N))
 
     for exp in range(numExperiments):
         # print('Rel avgs exp{}: {}'.format(exp, relAvgs[exp]))
@@ -65,7 +72,7 @@ def main():
         print('Nat avg exp{}: {}'.format(exp, natAvgs[exp].mean()))
 
         if (exp > 0):
-            maxU = len(relAvgs[exp]) * len(relAvgs[exp])
+            maxU = N*N
             U1, p = mannwhitneyu(relAvgs[exp], relAvgs[0], method="exact")
             U = min(U1, maxU - U1)
             print('Rel vs baseline U = {}, p = {}'.format(U, p))
