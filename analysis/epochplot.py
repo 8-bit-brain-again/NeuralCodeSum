@@ -14,9 +14,9 @@ dataDir = '../tmp'
 plotsDir = 'epochplots'
 
 experiments = {
-    'full_java':'Java Full',
-    'full_java_nosym':'Java Full NoBrackets',
-    'full_java_2':'Java Full SplitDecoder',
+    # 'full_java':'Java Full',
+    # 'full_java_nosym':'Java Full NoBrackets',
+    # 'full_java_2':'Java Full SplitDecoder',
     # 'full_py':'Python Full',
     # 'rnn_py':'Python RNN',
     # 'full_php':'PHP Full',
@@ -26,6 +26,9 @@ experiments = {
     # 'full_go_4':'Go Full short tgt_len',
     # 'full_go_5':'Go Full long src_len,tgt_len & small vocab',
     # 'full_go_6':'Go Full 5 but split decoder',
+    'rnngo':'Go RNN 0% dupl train/val',
+    'rnngo_optimized':'Go RNN 20% dupl train/val',
+    'rnngo_experiment':'Go RNN 50% dupl train/val',
 }
 
 fields = [
@@ -98,7 +101,7 @@ def main():
             plot(fig, experiments[experiment] + '-' + field, df[field], color)
             traceNum += 1
 
-    fig.update_layout(title='Experiment 2',
+    fig.update_layout(title='Experiment 4',
                     #   title=' vs. '.join(experiments.values()),
                       xaxis_title='Epoch',
                       yaxis_title='BLEU', 
